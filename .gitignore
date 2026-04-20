@@ -1,0 +1,61 @@
+# Archivos generados por LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.brf
+*.nlo
+*.nls
+*.ilg
+*.ind
+*.idx
+*.glg
+*.glo
+*.gls
+
+# Archivos de compilación intermedia
+*.xdv
+*.dvi
+*.ps
+
+# PDF generado (opcional ignorarlo)
+*.pdf
+
+# Archivos de editores
+*.swp
+*~
+*.bak
+
+# Carpetas comunes
+_build/
+build/
+out/
+
+# Archivos específicos de latexmk
+latexmkrc
+*.run.xml
+
+# Archivos de TikZ/PGF
+*.pgf
+*.snm
+*.nav
+
+# Archivos de notas
+*.vrb
+
+# Archivos de paquetes adicionales
+*.bcf
+*.acn
+*.acr
+*.alg
+*.loa
+
+.codex
+
