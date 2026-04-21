@@ -13,6 +13,7 @@ available, the script also writes a PNG copy for LaTeX inclusion.
 from __future__ import annotations
 
 import argparse
+import base64
 import html
 import textwrap
 from dataclasses import dataclass
@@ -22,7 +23,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 REPORT_DIR = Path(__file__).resolve().parents[1]
 LOGO_PATH = REPORT_DIR / "assets" / "tameo-logo.png"
-SVG_LOGO_HREF = "../assets/tameo-logo.png"
 DEFAULT_OUTPUT = REPORT_DIR / "img" / "wbs-reel-tameo.svg"
 DEFAULT_PNG_OUTPUT = DEFAULT_OUTPUT.with_suffix(".png")
 PNG_SCALE = 2
@@ -143,6 +143,13 @@ def wrap_lines(text: str, width: int) -> list[str]:
     )
 
 
+def svg_logo_href() -> str | None:
+    if not LOGO_PATH.exists():
+        return None
+    encoded = base64.b64encode(LOGO_PATH.read_bytes()).decode("ascii")
+    return f"data:image/png;base64,{encoded}"
+
+
 def svg_text(
     text: str,
     x: float,
@@ -260,6 +267,7 @@ def build_svg() -> str:
     root_w = ROOT_W
     root_h = ROOT_H
     trunk_y = TRUNK_Y
+    logo_href = svg_logo_href()
 
     parts: list[str] = [
         '<?xml version="1.0" encoding="UTF-8"?>',
@@ -279,7 +287,6 @@ def build_svg() -> str:
         svg_text("TAMEO - Pôle IA", 70, 72, size=28, weight=700, fill="#173B5C"),
         svg_text("WBS réel des tâches réalisées", width / 2, 75, size=44, weight=800, fill="#173B5C", anchor="middle"),
         svg_text("Périmètre constaté au 21 avril 2026", width / 2, 112, size=19, fill="#526778", anchor="middle"),
-        f'<image href="{SVG_LOGO_HREF}" x="1500" y="44" width="235" height="67" preserveAspectRatio="xMidYMid meet"/>',
         '<g filter="url(#shadow)">'
         + rounded_rect(root_x, root_y, root_w, root_h, fill="#173B5C", stroke="#173B5C", stroke_width=0, rx=14)
         + "</g>",
@@ -288,6 +295,12 @@ def build_svg() -> str:
         f'<line x1="{root_x + root_w / 2:.1f}" y1="{root_y + root_h:.1f}" x2="{root_x + root_w / 2:.1f}" y2="{trunk_y:.1f}" stroke="#8AA2B3" stroke-width="2.3"/>',
         f'<line x1="{positions[0][0] + card_w / 2:.1f}" y1="{trunk_y:.1f}" x2="{positions[2][0] + card_w / 2:.1f}" y2="{trunk_y:.1f}" stroke="#8AA2B3" stroke-width="2.3"/>',
     ]
+    if logo_href is not None:
+        parts.insert(
+            18,
+            f'<image href="{logo_href}" x="1500" y="44" width="235" height="67" '
+            'preserveAspectRatio="xMidYMid meet"/>',
+        )
 
     for x, y in positions[:3]:
         parts.append(f'<line x1="{x + card_w / 2:.1f}" y1="{trunk_y:.1f}" x2="{x + card_w / 2:.1f}" y2="{y:.1f}" stroke="#8AA2B3" stroke-width="2.3"/>')
