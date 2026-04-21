@@ -1,0 +1,157 @@
+name: Build and Deploy LaTeX PDFs
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build_pdfs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX documents
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: |
+            Réalisation/dossier/dossierRéalisation.tex
+            RapportFinal/rapport.tex
+            Template/tameo_template.tex
+            Video/sceneario.tex
+          work_in_root_file_dir: true
+
+      - name: Prepare GitHub Pages site
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          set -eu
+          version="${GITHUB_SHA}-${GITHUB_RUN_NUMBER}"
+
+          mkdir -p site/pdfs
+          cp "Réalisation/dossier/dossierRéalisation.pdf" site/pdfs/dossier-realisation.pdf
+          cp "RapportFinal/rapport.pdf" site/pdfs/rapport-final.pdf
+          cp "Template/tameo_template.pdf" site/pdfs/tameo-template.pdf
+          cp "Video/sceneario.pdf" site/pdfs/scenario-video.pdf
+
+          cat > site/index.html <<EOF
+          <!doctype html>
+          <html lang="fr">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Documents TAMEO</title>
+            <style>
+              :root {
+                color-scheme: light;
+                --bg: #f5f7f8;
+                --panel: #ffffff;
+                --text: #173b5c;
+                --muted: #52616d;
+                --accent: #173b5c;
+                --accent-hover: #225579;
+                --border: #d7dee4;
+              }
+              * { box-sizing: border-box; }
+              body {
+                margin: 0;
+                min-height: 100vh;
+                display: grid;
+                place-items: center;
+                padding: 32px;
+                background: var(--bg);
+                color: var(--text);
+                font-family: Arial, Helvetica, sans-serif;
+              }
+              main {
+                width: min(780px, 100%);
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 32px;
+                box-shadow: 0 16px 40px rgba(23, 59, 92, 0.10);
+              }
+              h1 {
+                margin: 0 0 10px;
+                font-size: clamp(2rem, 4vw, 3rem);
+                line-height: 1.1;
+              }
+              p {
+                margin: 0 0 24px;
+                color: var(--muted);
+                line-height: 1.55;
+              }
+              .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 14px;
+              }
+              a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 54px;
+                padding: 13px 16px;
+                border-radius: 6px;
+                background: var(--accent);
+                color: #ffffff;
+                text-align: center;
+                text-decoration: none;
+                font-weight: 700;
+              }
+              a:hover { background: var(--accent-hover); }
+            </style>
+          </head>
+          <body>
+            <main>
+              <h1>Documents TAMEO</h1>
+              <p>Dernières versions générées automatiquement par GitHub Actions.</p>
+              <div class="grid">
+                <a href="./pdfs/dossier-realisation.pdf?v=${version}">Dossier de réalisation</a>
+                <a href="./pdfs/rapport-final.pdf?v=${version}">Rapport final</a>
+                <a href="./pdfs/tameo-template.pdf?v=${version}">Template TAMEO</a>
+                <a href="./pdfs/scenario-video.pdf?v=${version}">Scénario vidéo</a>
+              </div>
+            </main>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload GitHub Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+      - name: Upload PDF artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-pdfs
+          path: |
+            Réalisation/dossier/dossierRéalisation.pdf
+            RapportFinal/rapport.pdf
+            Template/tameo_template.pdf
+            Video/sceneario.pdf
+
+  deploy_pages:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build_pdfs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,207 @@
+\pdfminorversion=7
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\frenchsetup{SmallCapsFigTabCaptions=false}
+\usepackage[scale=0.95]{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{microtype}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+
+% Les ressources externes du template doivent rester dans ces deux dossiers.
+% Placez les figures propres à chaque document dans Template/img.
+\graphicspath{{assets/}{img/}}
+
+\geometry{
+    letterpaper,
+    left=0.95in,
+    right=0.95in,
+    top=1.55in,
+    bottom=0.78in,
+    headheight=18pt,
+    headsep=18pt,
+    footskip=28pt
+}
+
+\definecolor{tameoBlue}{HTML}{173B5C}
+\definecolor{tameoLink}{HTML}{3A6B78}
+\definecolor{tameoText}{HTML}{13283A}
+\newcommand{\tameoCoverIndent}{0.20in}
+
+% ---------------------------------------------------------------------------
+% Informations du document
+% Modifiez uniquement ce bloc pour creer un nouveau document TAMEO.
+% ---------------------------------------------------------------------------
+\newcommand{\tameoTitle}{Bateau IA -- Groupe 25}
+\newcommand{\tameoDocumentType}{Scénario}
+\newcommand{\tameoPdfTitle}{Document TAMEO}
+\newcommand{\tameoPdfAuthor}{Projet TAMEO}
+
+\newcommand{\tameoAuthorsBlockA}{%
+    \tameoAuthorCell{CAVALLARO}{Vinicius Cesar}{vinicius-cesar.cavallaro@ensta.fr}
+    & \tameoAuthorCell{COUERRE}{Loup}{loup.couerre@ensta.fr}
+    \tabularnewline[0.56in]
+    \tameoAuthorCell{DIAS LEITE}{Julia Ellen}{julia-ellen.dias@ensta.fr}
+    & \tameoAuthorCell{MARCHÉ}{Benoît}{benoit.marche@ensta.fr}
+}
+
+\newcommand{\tameoAuthorsBlockB}{%
+    \tameoAuthorCell{DA SILVEIRA}{Lucas}{lucas.da-silveira-absalao@ensta.fr}
+    & \tameoAuthorCell{DE SOUZA AMODIO}{Lucca}{lucca.de-souza-amodio@ensta.fr}
+    \tabularnewline[0.56in]
+    \tameoAuthorCell{NOUKOUA TATMFO}{Maeva sandy}{maeva-sandy.noukoua@ensta.fr}
+    & \tameoAuthorCell{TARAZONA JIMENEZ}{Javier andres}{javier-andres.tarazona@ensta.fr}
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=tameoBlue,
+    urlcolor=tameoLink,
+    pdftitle={\tameoPdfTitle},
+    pdfauthor={\tameoPdfAuthor}
+}
+
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.35em}
+\renewcommand{\arraystretch}{1.18}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlength{\emergencystretch}{1.5em}
+
+\titleformat{\section}
+  {\sffamily\bfseries\LARGE\color{tameoBlue}}
+  {\thesection}{0.75em}{}
+\titleformat{\subsection}
+  {\sffamily\bfseries\large\color{tameoBlue}}
+  {\thesubsection}{0.75em}{}
+\titlespacing*{\section}{0pt}{1.3em}{0.65em}
+\titlespacing*{\subsection}{0pt}{1.05em}{0.35em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[R]{\thepage}
+
+\newcommand{\tameoBranding}{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=north east] at ([xshift=-1.16in,yshift=-0.58in]current page.north east)
+            {\includegraphics[width=1.98in]{tameo-logo.png}};
+        \node[anchor=north east] at ([xshift=-1.18in,yshift=-1.12in]current page.north east)
+            {\includegraphics[width=2.05in,height=0.026in]{tameo-bar.png}};
+    \end{tikzpicture}%
+}
+
+\newcommand{\tameoAuthorCell}[3]{%
+    \begin{minipage}[t]{2.6in}
+        \raggedright
+        \hyphenpenalty=10000
+        \exhyphenpenalty=10000
+        {\sffamily\fontsize{10.8}{12.6}\selectfont #1\par}
+        {\sffamily\fontsize{10.2}{12}\selectfont #2\par}
+        {\sffamily\fontsize{6.45}{7.6}\selectfont\href{mailto:#3}{#3}\par}
+    \end{minipage}%
+}
+
+\newcommand{\maketameotitle}{%
+    \begin{titlepage}
+        \thispagestyle{empty}
+        \begin{tikzpicture}[remember picture,overlay]
+            \node[anchor=north east] at ([xshift=-1.37in,yshift=-2.42in]current page.north east)
+                {\includegraphics[width=1.82in]{tameo-logo.png}};
+            \node[anchor=north west] at ([xshift=1.16in,yshift=-3.00in]current page.north west)
+                {\includegraphics[width=6.55in,height=0.115in]{tameo-bar.png}};
+        \end{tikzpicture}
+
+        \vspace*{1.82in}
+        {\hspace*{\tameoCoverIndent}\sffamily\bfseries\fontsize{42}{50}\selectfont\color{tameoBlue}\tameoTitle\par}
+        \vspace{0.45in}
+        {\hspace*{\tameoCoverIndent}\sffamily\itshape\fontsize{16}{20}\selectfont\color{tameoText}\tameoDocumentType\par}
+
+        \vspace{0.46in}
+        \noindent\hspace*{\tameoCoverIndent}\makebox[0pt][l]{%
+            \begin{tabular*}{5.95in}{@{\extracolsep{\fill}}ll@{}}
+                \tameoAuthorsBlockA
+            \end{tabular*}%
+        }\par
+        \vspace{0.25in}
+        \noindent\hspace*{\tameoCoverIndent}\makebox[0pt][l]{%
+            \begin{tabular*}{5.95in}{@{\extracolsep{\fill}}ll@{}}
+                \tameoAuthorsBlockB
+            \end{tabular*}%
+        }
+    \end{titlepage}
+}
+
+\makeatletter
+\newcommand{\styledtableofcontents}{%
+    \thispagestyle{fancy}
+    \vspace*{1.05in}
+    {\sffamily\bfseries\fontsize{24}{29}\selectfont\color{tameoBlue}Table des matières\par}
+    \vspace{0.85in}
+    \begingroup
+    \parskip=0.18em
+    \@starttoc{toc}
+    \endgroup
+    \newpage
+}
+\makeatother
+
+\begin{document}
+
+\maketameotitle
+\setcounter{page}{2}
+\AddToShipoutPictureBG{\tameoBranding}
+\styledtableofcontents
+
+\section{Introduction}
+
+Remplacez ce texte par le contenu du document. Ce template reprend la mise en
+page du dossier de réalisation TAMEO : page de garde, logo en en-tête, table des
+matières stylisée, titres, tableaux, figures et couleurs.
+
+\subsection{Utilisation des images}
+
+Les images propres au document doivent etre placees dans le dossier
+\texttt{Template/img}. Elles peuvent ensuite être insérées directement par leur
+nom de fichier :
+
+\begin{figure}[H]
+    \centering
+    % Exemple : \includegraphics[width=0.85\linewidth]{mon-image.png}
+    \caption{Légende de la figure.}
+\end{figure}
+
+\section{Section de modèle}
+
+\begin{table}[H]
+    \centering
+    \caption{Exemple de tableau}
+    \begin{tabular}{L{5.5cm}L{7.5cm}}
+        \toprule
+        Element & Description \\
+        \midrule
+        Objectif & Adapter ce modèle aux autres documents TAMEO. \\
+        Ressources & Seuls les fichiers de \texttt{Template/assets} et
+        \texttt{Template/img} sont utilisés. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\end{document}
