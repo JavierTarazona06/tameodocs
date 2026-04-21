@@ -135,12 +135,12 @@
         \end{tikzpicture}
 
         \vspace*{1.82in}
-        {\hspace*{\tameoCoverIndent}\sffamily\bfseries\fontsize{42}{50}\selectfont\color{tameoBlue}\tameoTitle\par}
+        {\noindent\hspace*{\tameoCoverIndent}\sffamily\bfseries\fontsize{42}{50}\selectfont\color{tameoBlue}\tameoTitle\par}
         \vspace{0.34in}
-        {\hspace*{\tameoCoverIndent}\sffamily\itshape\fontsize{16}{20}\selectfont\color{tameoText}\tameoDocumentType\par}
+        {\noindent\hspace*{\tameoCoverIndent}\sffamily\itshape\fontsize{16}{20}\selectfont\color{tameoText}\tameoDocumentType\par}
 
         \vspace{0.34in}
-        {\hspace*{\tameoCoverIndent}\sffamily\bfseries\fontsize{12}{14}\selectfont\color{tameoBlue}Auteurs:\par}
+        {\noindent\hspace*{\tameoCoverIndent}\sffamily\bfseries\fontsize{12}{14}\selectfont\color{tameoBlue}Auteurs:\par}
         \vspace{0.13in}
         \noindent\hspace*{\tameoCoverIndent}\makebox[0pt][l]{%
             \begin{tabular*}{5.95in}{@{\extracolsep{\fill}}ll@{}}
@@ -210,7 +210,7 @@ Le périmètre de notre intervention s'est concentré sur la création et l'int�
 \subsection{Rappel des objectifs et évolutions}
 Nos objectifs initiaux étaient de construire une architecture AS complète permettant de percevoir, décider et contrôler le véhicule de manière totalement autonome. Au fil du projet, ces objectifs ont été affinés pour adopter une stratégie \textbf{MVP (Minimum Viable Product)} afin de garantir la fiabilité du système avant la performance pure :
 \begin{itemize}
-    \item \textbf{Perception :} Détecter et suivre les bouées (fixes et mobiles) via un modelo de type YOLO, en produisant des sorties exploitables (bounding boxes, indices de confiance) pour le pilotage.
+    \item \textbf{Perception :} Détecter et suivre les bouées (fixes et mobiles) et un "Docking" via un modelo de type YOLO, en produisant des sorties exploitables (bounding boxes, indices de confiance) pour le pilotage.
     \item \textbf{Localisation et Décision :} Assurer une localisation robuste (GPS/RTK) et construire une logique de mission par épreuve, notamment la figure en 8 et l'approche lente de "Docking" sans contact avec le quai.
     \item \textbf{Sûreté :} Implémenter une télémétrie de sécurité vers la terre et un mode "Failsafe" garantissant l'arrêt immédiat de la propulsion en cas de situation critique.
 \end{itemize}
@@ -245,6 +245,9 @@ appartenant à l'association TAMÉO. \textbf{Parmi eux, seuls Julia Dias, Maeva 
 
 \subsubsection{Pôle Intelligence Artificielle (Co-dirigé par E. Le Hay et J. Tarazona)}
 Ce bloc constitue le cœur algorithmique du système autonome.
+
+Parmi les membres mentionnés dans ce pôle, \textbf{Javier Tarazona, Vinicius Zancheta, Lucca Amodio et Lucas Absalao appartiennent au groupe PIE ; les autres interviennent hors du groupe PIE.}
+
 \begin{itemize}
     \item \textbf{Détection et Vision (Ewen Le Hay, Javier Tarazona, Lucas Absalao, Florian Verne) :} Responsables de l'entraînement du modèle YOLO, de la constitution du dataset marin et de l'optimisation de l'inférence temps réel sur le GPU embarqué.
     \item \textbf{Trajectoire et Navigation (Lucca Amodio, Vinicius Zancheta, Julien Ye, Yuheng Zhang) :} Développement de la logique de mission (Machine à états), des algorithmes de planification de route par waypoints et des règles d'évitement d'obstacles.
@@ -414,11 +417,19 @@ Le troisième problème concerne la dispersion des informations. Le pôle Vision
 Pour éviter les pertes d'information entre pôles et entre promotions, une gestion centralisée devrait être mise en place. Elle regrouperait le suivi du dataset, les règles d'annotation, les procédures d'utilisation du BlueBoat modifié, les décisions techniques et les contraintes réglementaires. Un responsable documentaire pourrait vérifier régulièrement que ces éléments restent à jour et exploitables par les équipes suivantes.
 
 \section{Conclusion}
-En conclusion, ce projet d'ingénierie a permis de poser les fondations essentielles de la participation de l'ENSTA Paris à la classe IA du Monaco Energy Boat Challenge 2026. Bien que le système ne soit pas encore intégralement opérationnel à ce stade du calendrier, l'équipe a réussi à établir une architecture logicielle cohérente et à valider les premiers modules critiques de perception et de localisation. Le passage d'une ambition technologique initiale très complexe vers une stratégie de type Minimum Viable Product (MVP) a été une étape déterminante pour recentrer nos efforts sur la fiabilité des fonctions de base et la sûreté du véhicule en milieu marin.
+En conclusion, ce projet d'ingénierie a permis de construire une base technique cohérente pour la participation de l'ENSTA Paris à la classe IA du Monaco Energy Boat Challenge 2026. Malgré l'accès tardif au châssis final, l'utilisation du BlueBoat comme banc d'essai a permis de maintenir l'avancement du projet, de tester les communications, d'intégrer la Jetson et les caméras, et de valider progressivement une partie des choix d'architecture avant le passage au bateau destiné à Monaco.
 
-Sur le plan de la gestion, le projet a constitué un véritable laboratoire d'apprentissage face à l'imprévu. Nous avons dû composer avec des défis d'intégration logicielle majeurs, notamment les instabilités de drivers et les latences du bus de données, tout en respectant un budget conséquent de 50 481,13 €. La coordination entre les huit membres de l'équipe et les différentes parties prenantes a exigé une grande adaptabilité, nous forçant à transformer chaque difficulté technique en une opportunité de simplification et de sécurisation du système autonome.
+Les résultats obtenus couvrent les principaux pôles du projet. 
+Le pôle Vision a stabilisé un pipeline de détection comprenant collecte de 
+données, annotation, entraînement YOLO26, premiers exports et tests d'inférence. 
+Le pôle Embarqué a permis de conserver l'architecture BlueOS et ArduPilot tout en 
+préparant l'intégration des contrôleurs VESC, non supportés nativement dans la 
+configuration retenue. Les travaux d'intégration et de conception vont assurer la 
+transition vers le bateau réel grâce aux bancs de test, à l'architecture électrique
+, au système de direction, à la radiocommande et au suivi de conformité 
+réglementaire.
 
-Enfin, si le prototype nécessite encore des phases de tests intensives avant d'être totalement prêt pour les épreuves de juillet à Monaco, le travail de documentation réalisé assure une continuité solide pour la phase finale du challenge. Les dossiers de conception et les manuels d'exploitation fournis constituent un héritage précieux pour les étudiants de première année qui poursuivront le développement et porteront les couleurs de TAMÉO. Nous clôturons ce mandat avec la satisfaction d'avoir défriché un terrain technologique inédit pour l'école et d'avoir livré une plateforme de base résiliente et prometteuse pour l'avenir de la classe IA.
+Le système n'est toutefois pas encore entièrement finalisé à ce stade du calendrier. Les prochaines étapes restent l'enrichissement du jeu de données réel, la poursuite de l'intégration des actionneurs et capteurs, la finalisation du moteur de direction et de la radiocommande, puis les essais et ajustements sur le bateau réel. Le projet laisse ainsi une base exploitable pour la phase finale du challenge, avec des livrables techniques et documentaires destinés à faciliter la continuité entre les équipes et à sécuriser la préparation des épreuves de juillet à Monaco.
 
 
 \end{document}
