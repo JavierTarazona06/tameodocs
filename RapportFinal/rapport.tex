@@ -5,7 +5,8 @@
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \frenchsetup{SmallCapsFigTabCaptions=false}
-\usepackage{lmodern}
+\usepackage[scale=0.95]{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{grffile}
@@ -22,6 +23,7 @@
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{microtype}
 \usepackage{enumitem}
+\usepackage{indentfirst}
 \usepackage{hyperref}
 
 % Les ressources externes du rapport restent dans ces deux dossiers.
@@ -60,8 +62,8 @@
     pdfauthor={\tameoPdfAuthor}
 }
 
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.55em}
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.35em}
 \renewcommand{\arraystretch}{1.18}
 \setlist[itemize]{label=-, leftmargin=*}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
@@ -100,7 +102,7 @@
         \raggedright
         \hyphenpenalty=10000
         \exhyphenpenalty=10000
-        {\rmfamily\fontsize{10.8}{12.6}\selectfont #1\par}
+        {\sffamily\fontsize{10.8}{12.6}\selectfont #1\par}
     \end{minipage}%
 }
 
@@ -157,9 +159,10 @@
         \begin{minipage}{5.95in}
             {\sffamily\bfseries\fontsize{12}{14}\selectfont\color{tameoBlue}Encadrants:\par}
             \vspace{0.08in}
-            {\rmfamily\fontsize{10.8}{13}\selectfont M. TARUFFI \quad M. XERRI \quad M. FAUL\par}
+            {\sffamily\fontsize{10.8}{13}\selectfont M. TARUFFI \quad M. XERRI \quad M. FAUL\par}
             \vspace{0.18in}
-            {\sffamily\fontsize{10.8}{13}\selectfont\color{tameoText}Projet d'Ingénierie en Équipe (PIE) 2025-2026\par}
+            {\sffamily\fontsize{10.8}{13}\selectfont\color{tameoText}Projet d'Ingénierie en Équipe (PIE)\par}
+            {\sffamily\fontsize{10.8}{13}\selectfont\color{tameoText}2025-2026\par}
             {\sffamily\fontsize{10.8}{13}\selectfont\color{tameoText}Monaco Energy Boat Challenge 2026\par}
             {\sffamily\fontsize{10.8}{13}\selectfont\color{tameoText}Avril 2026\par}
         \end{minipage}
@@ -228,8 +231,10 @@ L'écosystème du projet implique plusieurs acteurs clés :
 L'équipe est structurée pour assurer une synergie entre la conception matérielle et l'IA, sous la direction technique globale de Loup Couerre. Afin de répondre aux exigences de clarté sur les missions de chacun, les rôles sont définis comme suit :
 
 \subsubsection{Pôle Conception du Bateau (Dirigé par Henri Cressot)}
-Ce bloc assure la viabilité physique et logicielle de bas niveau de l'AMS.
-Dirigé par Henri Cressot, ce bloc assure la base matérielle et logicielle bas niveau nécessaire au fonctionnement de l'IA
+Dirigé par Henri Cressot, ce bloc assure la viabilité physique et logicielle de bas niveau de l'AMS, ainsi que la base matérielle et logicielle nécessaire au fonctionnement de l'IA.
+
+L'ensemble des membres mentionnés dans ce pôle sont des étudiants de première année (1A) 
+appartenant à l'association TAMÉO. \textbf{Parmi eux, seuls Julia Dias, Maeva Noukoua et Benoît Marche appartiennent au groupe PIE ; les autres interviennent au titre de l'association TAMÉO.}
 
 \begin{itemize}
     \item \textbf{Structure et Châssis (Clément Gilbert, Mathieu Oudard, Romain Guinjard, Paul Arakelian, Nolann Laurent) :} Responsables du design mécanique, de l'étanchéité du cockpit et de l'intégration rigide des supports de capteurs (ZED et GPS) pour éviter les vibrations parasites.
@@ -245,6 +250,15 @@ Ce bloc constitue le cœur algorithmique du système autonome.
     \item \textbf{Trajectoire et Navigation (Lucca Amodio, Vinicius Zancheta, Julien Ye, Yuheng Zhang) :} Développement de la logique de mission (Machine à états), des algorithmes de planification de route par waypoints et des règles d'évitement d'obstacles.
     \item \textbf{Tests et Intégration (Thomas Wawrzyniak, Clément Pieutchot, Enzo Sawaya) :} Pivot central assurant la liaison entre les pôles. Ils valident la boucle de contrôle complète et s'assurent de la fiabilité des failsafes logiciels avant les tests sur l'eau.
 \end{itemize}
+
+\subsection{Équipe}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{equipe.png}
+    \caption{Équipe du projet Bateau IA.}
+    \label{fig:equipe}
+\end{figure}
 
 \subsection{Évolution de la Matrice RACI}
 
@@ -284,10 +298,6 @@ Gestion de Configuration & C & C & R/A & I & I \\
 \medskip
 \textit{Analyse de la transition RACI :} L'analyse comparative montre un changement de paradigme. La première matrice souffrait d'un manque de définition sur l'intégration système. Dans la version actualisée, le pôle « Tests et Intégration » est devenu le pivot central. L'introduction explicite de la gestion du middleware et de la configuration Git a permis de clarifier « qui fait quoi » lors des phases critiques. La sécurité est désormais une tâche partagée où l'Intégration réalise et la Direction Technique approuve, assurant une double validation.
 
-\subsection{Remédiation organisationnelle}
-Depuis le rapport initial, nous avons renforcé le pôle Informatique Embarquée pour servir de pont avec l'IA. La distinction entre « Perception » et « Navigation » a été durcie pour permettre un débogage modulaire plus efficace, évitant ainsi de confondre les erreurs de détection avec les erreurs de planification de route.
-
-
 \section{Liste des livrables fournis}
 L'ensemble des livrables a été conçu pour répondre aux exigences du MEBC.
 
@@ -315,35 +325,35 @@ L'ensemble des livrables a été conçu pour répondre aux exigences du MEBC.
 \textbf{Type de dossier} & \textbf{Contenu principal} \\
 \midrule
 Dossier de Conception & Cahier des charges, WBS, GANTT détaillé. \\
-Dossier de Réalisation & Architecture finale, inventaire matériel, logs de tests. \\
-Guide d'Exploitation & Manuel pilote et guide d'installation logicielle. \\
+Dossier de Réalisation & Dossier technique de réalisation du projet TAMEO-IA : BlueBoat, vision IA, intégration, tests, matériel, architecture et conformité MEBC. \\
+Guide d'Exploitation - BlueBoat & Manuel pilote et guide d'utilisation Blue Boat. \\
 Analyse de Risque Finale & Matrice de criticité mise à jour avec mesures de mitigation. \\
-Manuels Techniques & Manuel du module Vision et Manuel BlueBoat. \\
+Manuels Techniques & Manuel du module Vision. \\
 \bottomrule
 \end{tabularx}
 
 \section{Déroulement du projet et analyse thématique}
 
 \subsection{Chronologie des jalons et événements majeurs}
-Le cycle de vie du projet \textbf{Bateau IA - 26} a été rythmé par une série d'étapes critiques, allant de la théorie à la confrontation avec le milieu marin. Le projet a débuté en janvier 2026 par une phase de recherche intensive pour fixer l'architecture logicielle.
+Le cycle de vie du projet \textbf{Bateau IA - 26} a d'abord été structuré par une contrainte majeure : l'accès tardif au châssis final. Pour éviter de bloquer le développement logiciel, l'équipe a donc choisi d'utiliser le \textbf{BlueBoat} comme banc d'essai principal, afin de valider progressivement les choix d'architecture, les communications et les premiers composants du système autonome.
 
-Dès le mois de février, l'équipe a dû finaliser les spécifications pour lancer les commandes lourdes, notamment la caméra ZED et l'unité de calcul GPU, afin d'anticiper les délais de livraison. Le mois de mars a marqué un tournant avec le début de la collecte de données sur le terrain, essentielle pour entraîner notre modèle de détection d'obstacles. En avril, nous avons fait face à notre premier incident majeur : une instabilité critique des drivers GPU sous Docker, ce qui a paralysé le développement pendant une semaine.
+La première étape opérationnelle a consisté à organiser les pôles de travail et à mettre en place les bases techniques : prise en main de BlueOS, d'ArduPilot, de MAVLink et de QGroundControl, préparation du pipeline Vision, collecte et annotation des données, puis premiers entraînements du modèle de détection. En parallèle, l'intégration de la Jetson, des caméras et du réseau embarqué a permis de transformer le BlueBoat en plateforme réelle de test pour l'IA.
 
-L'intégration sur le \textbf{BlueBoat} s'est réellement concrétisée en mai, ouvrant la voie à une phase de simulation 2D intensive pour combler l'écart de performance entre le virtuel et le réel. Enfin, le mois de juin a été dédié à la validation finale des procédures de sécurité et aux tests de mission complète avant le départ pour Monaco.
+La suite du projet a été consacrée à la transition entre cette plateforme de test et le bateau destiné à Monaco : adaptation de l'architecture embarquée, étude des contrôleurs moteurs VESC, conception de bancs de test pour les actionneurs, le GPS et la radiocommande, et suivi continu de la conformité réglementaire. À l'état d'avancement décrit dans le dossier de réalisation, l'intégration de l'IA au BlueBoat est terminée ; l'intégration des actionneurs et capteurs réels est engagée afin de préparer les essais et ajustements sur le bateau final.
 
 \subsection{Analyse thématique du projet}
 
 \subsubsection{Pilotage et dynamique d'équipe}
 La gestion de ce projet a révélé la difficulté de coordonner deux promotions (PIE et PIC) sur un objectif commun. Le pilotage a d'abord souffert d'un manque de visibilité sur les tâches quotidiennes, ce qui a confirmé le risque de « défaillance de communication » identifié dans notre analyse initiale. L'absence de jalons de démonstration intermédiaires a failli retarder l'intégration logicielle. Pour y remédier, nous avons instauré des séances de travail obligatoires au \textbf{FabLab} chaque jeudi, transformant un mode de fonctionnement asynchrone en une collaboration directe. Ce changement de méthode a permis de clarifier « qui fait quoi » et de stabiliser l'interface entre le pôle informatique et le pôle mécanique.
 
-\subsubsection{Conception : du Reinforcement Learning au MVP}
-Sur le plan de la conception, notre ambition initiale d'utiliser l'apprentissage par renforcement (RL) s'est heurtée à la réalité de la complexité embarquée. Les premiers tests ont montré que les décisions du RL étaient trop lourdes pour le calculateur et que les comportements induits pouvaient être dangereux pour l'intégrité du bateau. Cet échec nous a conduits à une décision stratégique forte : pivoter vers une architecture de type \textbf{Minimum Viable Product (MVP)}. Nous avons remplacé la planification complexe par une machine à états robuste (IDLE, RUN, SAFE) couplée à un évitement d'obstacles basé sur des zones de danger fixes dans l'image. Cette simplification a paradoxalement augmenté la fiabilité du système en réduisant l'incertitude décisionnelle.
+\subsubsection{Conception : du bateau final au banc d'essai BlueBoat}
+Sur le plan de la conception, la contrainte centrale a été l'accès tardif au châssis final. L'équipe a donc organisé le développement autour du \textbf{BlueBoat}, utilisé comme banc d'essai pour maintenir l'avancement des pôles logiciels et préparer la transition vers le bateau destiné à Monaco. Cette stratégie a permis de travailler en parallèle sur la perception, les communications, l'intégration des capteurs et actionneurs, les procédures de test et les choix structurants du bateau réel.
 
 \subsubsection{Réalisation et défis de l'informatique embarquée}
-La phase de réalisation physique a mis en lumière des problèmes de bas niveau souvent sous-estimés en phase d'étude. L'interfaçage avec le bus CAN pour le contrôle de la direction et de la propulsion a généré des pertes de messages et des latences critiques. Ces bugs logiciels, couplés à une consommation électrique du hardware de calcul plus élevée que prévu, ont nécessité une optimisation drastique de notre middleware. Nous avons dû implémenter des garde-fous pour éviter que des commandes irréalistes ne soient envoyées aux actionneurs en cas de lag logiciel, garantissant ainsi que le bateau reste dans son enveloppe de sécurité opérationnelle.
+La phase de réalisation a surtout mis en évidence des difficultés d'intégration entre la plateforme de test et les composants retenus pour le bateau réel. Les principaux verrous ont concerné l'ajout de la Jetson, des caméras et du réseau embarqué sur le BlueBoat, ainsi que la compatibilité entre BlueOS, ArduPilot et les contrôleurs moteurs VESC, dont la communication n'était pas supportée nativement dans l'architecture choisie. En réponse, l'équipe a travaillé sur une interface spécifique, des bancs de test et une architecture permettant de conserver une capacité de supervision et de reprise en main.
 
-\subsubsection{Validation et gestion des échecs de perception}
-La campagne de tests finaux a été le juge de paix de notre système de vision. Nous avons constaté une limite technologique majeure : l'algorithme YOLO peinait à détecter les bouées à 60 mètres sous l'effet des reflets solaires, un risque environnemental que nous avions pourtant identifié. Plutôt que de chercher une solution logicielle miracle, nous avons intégré cette faiblesse dans notre logique de navigation. En cas de non-détection ou de doute statistique (faux négatifs), le système déclenche désormais un mode « conservateur » qui réduit la vitesse et maintient le cap actuel jusqu'à la levée de l'incertitude. Cette analyse constructive de nos échecs de perception nous a permis de livrer un système qui, s'il n'est pas infaillible, est intrinsèquement sûr pour la compétition.
+\subsubsection{Validation et gestion des risques techniques}
+La validation s'est construite progressivement plutôt qu'à travers une campagne finale unique. Le pôle Vision a stabilisé un pipeline comprenant collecte et annotation des données, entraînements YOLO, tests d'inférence et préparation de l'export embarqué. Le pôle Intégration a validé l'architecture BlueBoat, Jetson, caméras, accès distant, QGroundControl et communications MAVLink. À l'état d'avancement décrit dans le dossier de réalisation, l'intégration de l'IA au BlueBoat est terminée ; les efforts restants portent sur l'intégration des actionneurs et capteurs réels, la radiocommande, le moteur de direction et les essais sur le bateau final.
 
 \section{Mise à jour de la planification, des coûts et des risques}
 
@@ -370,7 +380,7 @@ Technique Bateau IA & 15 000,00 € & Capteurs (ZED, GPS RTK), calculateurs haut
 Technique Bateau EC & 10 000,00 € & Maintenance et composants partagés avec la classe Energy. \\
 Blue Boat & 7 000,00 € & Plateforme de test et flotteurs. \\
 MEBC 2026 & 7 000,00 € & Frais d'inscription, logistique et transport vers Monaco. \\
-Fond de roulement & 7 881,13 € & Réserve pour imprévus techniques et consommables. \\
+Fond de roulement & 7 881,13 € & Réserve conservée pour la poursuite du projet l'année suivante et les imprévus futurs. \\
 Communication \& Divers & 3 600,00 € & Permis, frais bancaires, supports de communication. \\
 \bottomrule
 \end{tabularx}

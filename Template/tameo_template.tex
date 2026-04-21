@@ -5,7 +5,8 @@
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \frenchsetup{SmallCapsFigTabCaptions=false}
-\usepackage{lmodern}
+\usepackage[scale=0.95]{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{grffile}
@@ -21,6 +22,7 @@
 \usepackage{titlesec}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{microtype}
+\usepackage{indentfirst}
 \usepackage{hyperref}
 
 % Les ressources externes du template doivent rester dans ces deux dossiers.
@@ -76,8 +78,8 @@
     pdfauthor={\tameoPdfAuthor}
 }
 
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.55em}
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.35em}
 \renewcommand{\arraystretch}{1.18}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
@@ -111,9 +113,9 @@
         \raggedright
         \hyphenpenalty=10000
         \exhyphenpenalty=10000
-        {\rmfamily\fontsize{10.8}{12.6}\selectfont #1\par}
-        {\rmfamily\fontsize{10.2}{12}\selectfont #2\par}
-        {\rmfamily\fontsize{6.45}{7.6}\selectfont\href{mailto:#3}{#3}\par}
+        {\sffamily\fontsize{10.8}{12.6}\selectfont #1\par}
+        {\sffamily\fontsize{10.2}{12}\selectfont #2\par}
+        {\sffamily\fontsize{6.45}{7.6}\selectfont\href{mailto:#3}{#3}\par}
     \end{minipage}%
 }
 
