@@ -170,38 +170,122 @@
 \AddToShipoutPictureBG{\tameoBranding}
 \styledtableofcontents
 
-\section{Introduction}
+\section{Scénario de vidéo de présentation}
 
-Remplacez ce texte par le contenu du document. Ce template reprend la mise en
-page du dossier de réalisation TAMEO : page de garde, logo en en-tête, table des
-matières stylisée, titres, tableaux, figures et couleurs.
+\subsection{Intention générale}
+La vidéo présente le projet Bateau IA de manière synthétique, avec une durée cible comprise entre 6 min 30 et 7 min. Le montage alterne entre des interventions courtes face caméra, des images du bateau et du matériel, des captures d'écran, puis deux extraits vidéo : le BlueBoat en autonomie et la détection automatique.
 
-\subsection{Utilisation des images}
+L'objectif est de montrer que le projet ne se limite pas à un algorithme isolé, mais il s'agit d'une chaîne complète allant de la perception jusqu'à l'intégration physique, en passant par la configuration du BlueBoat, les communications, les bancs de test et la préparation du bateau destiné au Monaco Energy Boat Challenge 2026.
 
-Les images propres au document doivent etre placees dans le dossier
-\texttt{Template/img}. Elles peuvent ensuite être insérées directement par leur
-nom de fichier :
+\subsection{Découpage proposé}
+\begin{center}
+\scriptsize
+\begin{tabularx}{\textwidth}{L{0.85in}Y L{1.05in}Y}
+\toprule
+\textbf{Temps} & \textbf{Image / vidéo} & \textbf{Voix} & \textbf{Objectif} \\
+\midrule
+0:00--0:25 & Titre, logo TAMEO, plan du BlueBoat ou du bateau final. & Présentateur face caméra & Introduire le projet, le contexte ENSTA Paris et le MEBC 2026. \\
+0:25--1:10 & Images du BlueBoat, du Hobie Cat 14, de l'équipe et du matériel. & Voix off & Expliquer l'objectif : rendre le bateau capable de percevoir, décider et agir. \\
+1:10--2:05 & Plans de la Jetson, des caméras, du switch réseau, de BlueOS et QGroundControl. & Voix off & Montrer les réussites de configuration du BlueBoat. \\
+2:05--2:45 & Extrait vidéo : BlueBoat en autonomie. & Voix off légère & Illustrer le BlueBoat comme banc d'essai réel. \\
+2:45--3:55 & Captures CVAT, dataset, entraînement YOLO26, puis extrait vidéo de détection automatique. & Voix off & Présenter le pipeline Vision et les premiers résultats de détection. \\
+3:55--5:05 & Bancs de test, VESC, schémas BlueOS / ArduPilot / MAVLink, moteur et direction. & Présentateur ou voix off & Expliquer l'intégration embarquée et la transition vers le bateau final. \\
+5:05--6:20 & Images du châssis, radiocommande, tests à terre, documents techniques. & Voix off & Résumer les résultats, les limites et les travaux restants. \\
+6:20--6:50 & Retour face caméra, plans de conclusion. & Présentateur face caméra & Conclure sur les perspectives jusqu'à Monaco. \\
+\bottomrule
+\end{tabularx}
+\end{center}
 
-\begin{figure}[H]
-    \centering
-    % Exemple : \includegraphics[width=0.85\linewidth]{mon-image.png}
-    \caption{Légende de la figure.}
-\end{figure}
+\subsection{Texte de voix détaillé}
 
-\section{Section de modèle}
+\subsubsection*{Séquence 1 -- Introduction face caméra}
+\textbf{Durée indicative : 0:00--0:25.}
 
-\begin{table}[H]
-    \centering
-    \caption{Exemple de tableau}
-    \begin{tabular}{L{5.5cm}L{7.5cm}}
-        \toprule
-        Element & Description \\
-        \midrule
-        Objectif & Adapter ce modèle aux autres documents TAMEO. \\
-        Ressources & Seuls les fichiers de \texttt{Template/assets} et
-        \texttt{Template/img} sont utilisés. \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+\textbf{Présentateur face caméra :}
+
+Bonjour, nous sommes l'équipe Bateau IA de TAMEO, à l'ENSTA Paris. Notre projet s'inscrit dans la préparation du Monaco Energy Boat Challenge 2026, dans la classe IA. L'objectif est de développer une base technique pour un bateau capable de naviguer de manière autonome, en percevant son environnement, en suivant une trajectoire et en conservant une capacité de reprise en main.
+
+\subsubsection*{Séquence 2 -- Contexte et objectifs}
+\textbf{Durée indicative : 0:25--1:10.}
+
+\textbf{Voix off sur images du BlueBoat, du bateau final et de l'équipe :}
+
+Le projet part d'une contrainte importante : le bateau final n'était pas disponible dès le début de l'année. Pour éviter de bloquer le développement, l'équipe a utilisé le BlueBoat de Blue Robotics comme banc d'essai. Ce choix a permis de travailler en parallèle sur la vision, les communications, l'intégration des capteurs, les premiers actionneurs et les procédures de test.
+
+L'objectif global est donc double. D'abord, faire fonctionner une chaîne de perception capable de reconnaître des éléments utiles à la navigation, comme les bouées et les repères de docking. Ensuite, préparer l'intégration embarquée pour que ces informations puissent être exploitées par l'architecture de contrôle du bateau.
+
+\subsubsection*{Séquence 3 -- Configuration réussie du BlueBoat}
+\textbf{Durée indicative : 1:10--2:05.}
+
+\textbf{Voix off sur plans de la Jetson, des caméras, du switch réseau, de BlueOS et de QGroundControl :}
+
+Une des principales réussites du projet concerne la configuration du BlueBoat. La plateforme a été modifiée pour accueillir une Jetson, des caméras et un switch réseau, tout en conservant son architecture initiale. Cette configuration permet de se connecter à distance à la Jetson, de superviser le bateau depuis une station à terre et de suivre son comportement avec QGroundControl.
+
+L'équipe a aussi travaillé sur les communications MAVLink et sur l'accès à BlueOS. Ces éléments sont essentiels pour envoyer des commandes, récupérer des informations et garder une capacité de contrôle rapide pendant les essais. Le BlueBoat est ainsi devenu une plateforme réelle de validation, avant l'intégration sur le bateau destiné à Monaco.
+
+\subsubsection*{Séquence 4 -- Extrait vidéo : BlueBoat en autonomie}
+\textbf{Durée indicative : 2:05--2:45.}
+
+\textbf{Extrait vidéo : BlueBoat en autonomie.}
+
+\textbf{Voix off légère, pendant ou juste avant l'extrait :}
+
+Dans cet extrait, on montre le BlueBoat utilisé comme support d'essai pour les fonctions autonomes. L'intérêt de cette plateforme est de pouvoir tester en conditions réelles les communications, la supervision et les comportements du système, sans attendre la disponibilité complète du bateau final.
+
+\textbf{Indication de montage :} laisser quelques secondes de son direct si la vidéo est claire, puis reprendre la voix off après l'extrait.
+
+\subsubsection*{Séquence 5 -- Vision et détection automatique}
+\textbf{Durée indicative : 2:45--3:55.}
+
+\textbf{Voix off sur captures CVAT, images annotées, courbes d'entraînement et extrait de détection :}
+
+Le pôle Vision a construit une chaîne complète de détection. Le travail a commencé par la collecte d'images maritimes, puis par leur annotation avec CVAT. Les objets recherchés sont principalement les bouées fixes, les bouées mobiles et les éléments utiles au docking.
+
+Une difficulté importante était le manque initial d'images réelles et variées. Pour compenser, l'équipe a trié des données maritimes disponibles, harmonisé les annotations et entraîné un modèle YOLO26. Les premiers résultats montrent une détection fiable des bouées sur le jeu de données actif, avec des tests d'inférence et une préparation de l'export pour l'utilisation embarquée.
+
+\textbf{Extrait vidéo : détection automatique.}
+
+\textbf{Voix off pendant l'extrait :}
+
+Ici, l'objectif est de montrer la détection automatique en fonctionnement : le modèle identifie les éléments visibles dans l'image et produit des boîtes de détection exploitables pour les étapes suivantes de navigation.
+
+\subsubsection*{Séquence 6 -- Intégration embarquée et actionneurs}
+\textbf{Durée indicative : 3:55--5:05.}
+
+\textbf{Présentateur face caméra ou voix off sur les bancs de test :}
+
+Le deuxième axe majeur du projet concerne l'intégration embarquée. Le système repose sur BlueOS, ArduPilot, MAVLink et QGroundControl. Pour le bateau final, l'équipe doit aussi intégrer des contrôleurs moteurs VESC, qui ne sont pas directement supportés par la configuration initiale.
+
+Pour résoudre cette difficulté, une interface spécifique a été préparée afin de traduire les commandes issues de l'architecture BlueBoat vers les contrôleurs VESC. En parallèle, des bancs de test ont été conçus pour le moteur principal, la direction, le GPS et la radiocommande. Ces bancs permettent de vérifier les composants à terre avant les essais sur le bateau réel.
+
+\subsubsection*{Séquence 7 -- Résultats, limites et perspectives}
+\textbf{Durée indicative : 5:05--6:20.}
+
+\textbf{Voix off sur images du châssis, de la radiocommande, des documents et des tests :}
+
+À ce stade, plusieurs résultats importants ont été obtenus. Le pipeline Vision est en place, avec collecte de données, annotation, entraînement YOLO26 et tests de détection. L'intégration de l'IA au BlueBoat est terminée : réseau, Jetson, caméras, accès distant, QGroundControl et communications MAVLink sont opérationnels. La transition vers le bateau réel est également préparée grâce aux choix structurants sur le Hobie Cat 14, au châssis aluminium, à l'architecture électrique, aux bancs de test et au suivi de conformité réglementaire.
+
+Le système n'est cependant pas encore finalisé. Les prochaines étapes sont l'enrichissement du jeu de données avec davantage d'images réelles, la finalisation de l'intégration des actionneurs et des capteurs, le moteur de direction, la radiocommande, puis les essais sur le bateau réel. Ces essais devront valider la cohérence des commandes, la fiabilité des communications et la capacité de reprise en main.
+
+\subsubsection*{Séquence 8 -- Conclusion face caméra}
+\textbf{Durée indicative : 6:20--6:50.}
+
+\textbf{Présentateur face caméra :}
+
+Ce projet a donc permis de construire une base technique cohérente pour la classe IA du Monaco Energy Boat Challenge. Le BlueBoat a joué un rôle central pour avancer malgré l'accès tardif au bateau final. Les développements réalisés en vision, en intégration embarquée et en tests fournissent maintenant une base exploitable pour la phase finale de préparation à Monaco.
+
+\textbf{Voix off ou texte final à l'écran :}
+
+Prochaine étape : enrichir les essais réels, finaliser l'intégration du bateau et sécuriser la préparation des épreuves de juillet.
+
+\subsection{Notes de montage}
+\begin{itemize}
+    \item Garder les passages face caméra courts, pour éviter une vidéo trop statique.
+    \item Utiliser la voix off pour expliquer les éléments techniques pendant que les images montrent le matériel.
+    \item Placer l'extrait du BlueBoat en autonomie avant la partie Vision afin de montrer d'abord la plateforme réelle.
+    \item Placer l'extrait de détection automatique au milieu de la vidéo, au moment où le pipeline YOLO26 est expliqué.
+    \item Ne pas faire intervenir tous les membres de l'équipe : une ou deux voix suffisent si le montage montre clairement le travail collectif.
+\end{itemize}
+
 
 \end{document}
