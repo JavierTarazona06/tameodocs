@@ -5,7 +5,8 @@
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \frenchsetup{SmallCapsFigTabCaptions=false}
-\usepackage{lmodern}
+\usepackage[scale=0.95]{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{grffile}
@@ -13,15 +14,19 @@
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
+\usepackage{tabularx}
 \usepackage{xcolor}
-\usepackage{pdfpages}
 \usepackage{tikz}
 \usepackage{eso-pic}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{microtype}
+\usepackage{indentfirst}
 \usepackage{hyperref}
+
+% Les ressources externes du dossier restent dans ces deux dossiers.
+\graphicspath{{assets/}{img/}}
 
 \geometry{
     letterpaper,
@@ -36,19 +41,43 @@
 
 \definecolor{tameoBlue}{HTML}{173B5C}
 \definecolor{tameoLink}{HTML}{3A6B78}
+\definecolor{tameoText}{HTML}{13283A}
+\newcommand{\tameoCoverIndent}{0.20in}
+
+\newcommand{\tameoTitle}{Bateau IA -- Groupe 25}
+\newcommand{\tameoDocumentType}{Dossier de réalisation}
+\newcommand{\tameoPdfTitle}{Dossier de réalisation du projet TAMEO-IA}
+\newcommand{\tameoPdfAuthor}{Projet TAMEO-IA}
+
+\newcommand{\tameoAuthorsBlockA}{%
+    \tameoAuthorCell{CAVALLARO}{Vinicius Cesar}{vinicius-cesar.cavallaro@ensta.fr}
+    & \tameoAuthorCell{COUERRE}{Loup}{loup.couerre@ensta.fr}
+    \tabularnewline[0.56in]
+    \tameoAuthorCell{DIAS LEITE}{Julia Ellen}{julia-ellen.dias@ensta.fr}
+    & \tameoAuthorCell{MARCHÉ}{Benoît}{benoit.marche@ensta.fr}
+}
+
+\newcommand{\tameoAuthorsBlockB}{%
+    \tameoAuthorCell{DA SILVEIRA}{Lucas}{lucas.da-silveira-absalao@ensta.fr}
+    & \tameoAuthorCell{DE SOUZA AMODIO}{Lucca}{lucca.de-souza-amodio@ensta.fr}
+    \tabularnewline[0.56in]
+    \tameoAuthorCell{NOUKOUA TATMFO}{Maeva sandy}{maeva-sandy.noukoua@ensta.fr}
+    & \tameoAuthorCell{TARAZONA JIMENEZ}{Javier andres}{javier-andres.tarazona@ensta.fr}
+}
 
 \hypersetup{
     colorlinks=true,
     linkcolor=tameoBlue,
     urlcolor=tameoLink,
-    pdftitle={Dossier de réalisation du projet TAMEO-IA},
-    pdfauthor={Projet TAMEO-IA}
+    pdftitle={\tameoPdfTitle},
+    pdfauthor={\tameoPdfAuthor}
 }
 
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.55em}
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.35em}
 \renewcommand{\arraystretch}{1.18}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \setlength{\emergencystretch}{1.5em}
 
 \titleformat{\section}
@@ -68,10 +97,51 @@
 \newcommand{\tameoBranding}{%
     \begin{tikzpicture}[remember picture,overlay]
         \node[anchor=north east] at ([xshift=-1.16in,yshift=-0.58in]current page.north east)
-            {\includegraphics[width=1.98in]{assets/tameo-logo.png}};
+            {\includegraphics[width=1.98in]{tameo-logo.png}};
         \node[anchor=north east] at ([xshift=-1.18in,yshift=-1.12in]current page.north east)
-            {\includegraphics[width=2.05in,height=0.026in]{assets/tameo-bar.png}};
+            {\includegraphics[width=2.05in,height=0.026in]{tameo-bar.png}};
     \end{tikzpicture}%
+}
+
+\newcommand{\tameoAuthorCell}[3]{%
+    \begin{minipage}[t]{2.6in}
+        \raggedright
+        \hyphenpenalty=10000
+        \exhyphenpenalty=10000
+        {\sffamily\fontsize{10.8}{12.6}\selectfont #1\par}
+        {\sffamily\fontsize{10.2}{12}\selectfont #2\par}
+        {\sffamily\fontsize{6.45}{7.6}\selectfont\href{mailto:#3}{#3}\par}
+    \end{minipage}%
+}
+
+\newcommand{\maketameotitle}{%
+    \begin{titlepage}
+        \thispagestyle{empty}
+        \begin{tikzpicture}[remember picture,overlay]
+            \node[anchor=north east] at ([xshift=-1.37in,yshift=-2.42in]current page.north east)
+                {\includegraphics[width=1.82in]{tameo-logo.png}};
+            \node[anchor=north west] at ([xshift=1.16in,yshift=-3.00in]current page.north west)
+                {\includegraphics[width=6.55in,height=0.115in]{tameo-bar.png}};
+        \end{tikzpicture}
+
+        \vspace*{1.82in}
+        {\hspace*{\tameoCoverIndent}\sffamily\bfseries\fontsize{42}{50}\selectfont\color{tameoBlue}\tameoTitle\par}
+        \vspace{0.45in}
+        {\hspace*{\tameoCoverIndent}\sffamily\itshape\fontsize{16}{20}\selectfont\color{tameoText}\tameoDocumentType\par}
+
+        \vspace{0.46in}
+        \noindent\hspace*{\tameoCoverIndent}\makebox[0pt][l]{%
+            \begin{tabular*}{5.95in}{@{\extracolsep{\fill}}ll@{}}
+                \tameoAuthorsBlockA
+            \end{tabular*}%
+        }\par
+        \vspace{0.25in}
+        \noindent\hspace*{\tameoCoverIndent}\makebox[0pt][l]{%
+            \begin{tabular*}{5.95in}{@{\extracolsep{\fill}}ll@{}}
+                \tameoAuthorsBlockB
+            \end{tabular*}%
+        }
+    \end{titlepage}
 }
 
 \makeatletter
@@ -90,7 +160,7 @@
 
 \begin{document}
 
-\includepdf[pages=1,fitpaper=true,pagecommand={\thispagestyle{empty}}]{../SampleDossierRealisation.pdf}
+\maketameotitle
 \setcounter{page}{2}
 \AddToShipoutPictureBG{\tameoBranding}
 \styledtableofcontents
@@ -133,7 +203,7 @@ Dans le cadre du projet, le BlueBoat a été modifié pour devenir un banc d'ess
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\linewidth]{"../Rapport_PIE Benoit_Images/BlueBoat.png"}
+    \includegraphics[width=0.85\linewidth]{blueboat.png}
     \caption{Plateforme BlueBoat utilisée comme support de développement et de test.}
 \end{figure}
 
@@ -143,7 +213,7 @@ La prise en main du BlueBoat a nécessité l'étude de sa documentation, de son 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{"../Rapport_PIE Benoit_Images/qgc.png"}
+    \includegraphics[width=0.9\linewidth]{qgc.png}
     \caption{Interface QGroundControl utilisée pour suivre la position du bateau et gérer ses modes de fonctionnement.}
 \end{figure}
 
@@ -159,7 +229,7 @@ Pour répondre à ce besoin, un switch Ethernet embarqué a été ajouté. Il pe
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{"../Rapport_PIE Benoit_Images/archibb.jpg"}
+    \includegraphics[width=0.9\linewidth]{architecture-blueboat.jpg}
     \caption{Architecture réseau mise en place autour du BlueBoat, de la Jetson et de la station à terre.}
 \end{figure}
 
@@ -167,7 +237,7 @@ Cette architecture permet d'utiliser la station de base et le réseau interne du
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{"../Rapport_PIE Benoit_Images/VNC.png"}
+    \includegraphics[width=0.8\linewidth]{vnc.png}
     \caption{Connexion distante à l'environnement embarqué.}
 \end{figure}
 
@@ -181,13 +251,13 @@ L'intégration a aussi nécessité un travail de câblage électrique. L'objecti
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{"../Rapport_PIE Benoit_Images/BBmodif.jpeg"}
+    \includegraphics[width=0.75\linewidth]{blueboat-modifie.jpeg}
     \caption{BlueBoat modifié avec l'intégration du matériel nécessaire au système autonome.}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{"../TravailLoup_Images/image1.png"}
+    \includegraphics[width=0.75\linewidth]{bateau-final.png}
     \caption{BlueBoat équipé de son système de navigation autonome.}
 \end{figure}
 
@@ -342,7 +412,7 @@ La solution retenue consiste à utiliser un script Lua lancé au démarrage. Ce 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.72\linewidth]{"../Rapport_PIE Benoit_Images/BBmot.jpeg"}
+    \includegraphics[width=0.72\linewidth]{blueboat-moteur.jpeg}
     \caption{Travaux d'intégration liés aux moteurs et à la transition vers les actionneurs du bateau IA.}
 \end{figure}
 
@@ -366,7 +436,7 @@ Le BlueBoat a également été fixé sur un support mobile afin de tester la qua
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{"../Rapport_PIE Benoit_Images/etat PIE.jpg"}
+    \includegraphics[width=0.75\linewidth]{etat-pie.jpg}
     \caption{État d'avancement et organisation des travaux du PIE.}
 \end{figure}
 
@@ -392,7 +462,7 @@ Le choix de la plateforme nautique s'est orienté vers un Hobie Cat 14 d'occasio
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{"../Rapport_PIE Benoit_Images/IAcourses.png"}
+    \includegraphics[width=0.9\linewidth]{ia-courses.png}
     \caption{Cadre de compétition du projet bateau IA.}
 \end{figure}
 
