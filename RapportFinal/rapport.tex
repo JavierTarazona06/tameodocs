@@ -278,25 +278,29 @@ Câblage Physique & - & - & R/A & C \\
 \end{center}
 
 \subsubsection{Matrice Finale (Approche Intégrée)}
-La nouvelle matrice introduit une transversalité nécessaire pour maîtriser les latences et garantir la sûreté de l'AMS.
+La matrice finale clarifie les responsabilités autour des tâches réellement structurantes du projet : perception, intégration BlueBoat, embarqué, bancs de test, conformité et transition vers le bateau final. La notation utilisée est la suivante : R = réalise, A = approuve, C = consulté, I = informé.
+
 \rowcolors{2}{tablerow}{white}
 \begin{center}
-\small
+\scriptsize
 \begin{tabularx}{\textwidth}{lXXXXX}
 \toprule
-\textbf{Tâche Globale} & \textbf{Vision} & \textbf{Nav.} & \textbf{Intég.} & \textbf{Elec.} & \textbf{Dir. Tech.} \\
+\textbf{Tâche globale} & \textbf{Vision} & \textbf{Nav.} & \textbf{Tests/Intég.} & \textbf{Emb./Élec.} & \textbf{Dir. Tech.} \\
 \midrule
-Validation Perception & R/A & C & C & I & I \\
-Logique Mission (MVP) & I & R & A & I & C \\
-Middleware CAN/ROS & C & I & R/A & C & I \\
-Tests de Sûreté & I & I & R & I & A \\
-Gestion de Configuration & C & C & R/A & I & I \\
+Dataset, annotation et entraînement YOLO26 & R/A & C & C & I & I \\
+Réseau BlueBoat, Jetson, caméras et accès distant & C & I & R & R & A \\
+Interface BlueOS, ArduPilot et VESC & I & C & C & R & A \\
+Bancs de test moteur, direction, GPS et radiocommande & I & I & R & R & A \\
+Intégration actionneurs/capteurs réels sur BlueBoat & C & C & R/A & R & I \\
+Essais, sécurité et reprise en main & I & C & R & C & A \\
+Conformité MEBC et choix pilote/radiocommande & I & I & C & C & R/A \\
+Documentation, procédures et passation & C & C & R/A & C & I \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
 \medskip
-\textit{Analyse de la transition RACI :} L'analyse comparative montre un changement de paradigme. La première matrice souffrait d'un manque de définition sur l'intégration système. Dans la version actualisée, le pôle « Tests et Intégration » est devenu le pivot central. L'introduction explicite de la gestion du middleware et de la configuration Git a permis de clarifier « qui fait quoi » lors des phases critiques. La sécurité est désormais une tâche partagée où l'Intégration réalise et la Direction Technique approuve, assurant une double validation.
+\textit{Analyse de la transition RACI :} La matrice actualisée met en évidence le rôle central du pôle « Tests et Intégration », chargé de rendre les développements exploitables sur une plateforme réelle et de coordonner les validations entre Vision, Embarqué et Conception. Le pôle Vision reste responsable de la chaîne dataset--annotation--entraînement, tandis que l'embarqué et l'électronique portent les interfaces BlueOS, ArduPilot, VESC et les bancs de test. La Direction Technique conserve l'approbation des choix structurants liés à la conformité MEBC, à la sécurité et à la transition vers le bateau final.
 
 \section{Liste des livrables fournis}
 L'ensemble des livrables a été conçu pour répondre aux exigences du MEBC.
