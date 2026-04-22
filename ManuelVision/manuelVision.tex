@@ -1,0 +1,410 @@
+\pdfminorversion=7
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\frenchsetup{SmallCapsFigTabCaptions=false}
+\usepackage[scale=0.95]{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{microtype}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+
+% Les ressources externes du template doivent rester dans ces deux dossiers.
+% Placez les figures propres à chaque document dans Template/img.
+\graphicspath{{assets/}{img/}}
+
+\geometry{
+    letterpaper,
+    left=0.95in,
+    right=0.95in,
+    top=1.55in,
+    bottom=0.78in,
+    headheight=18pt,
+    headsep=18pt,
+    footskip=28pt
+}
+
+\definecolor{tameoBlue}{HTML}{173B5C}
+\definecolor{tameoLink}{HTML}{3A6B78}
+\definecolor{tameoText}{HTML}{13283A}
+\newcommand{\tameoCoverIndent}{0.20in}
+
+% ---------------------------------------------------------------------------
+% Informations du document
+% Modifiez uniquement ce bloc pour creer un nouveau document TAMEO.
+% ---------------------------------------------------------------------------
+\newcommand{\tameoTitle}{Bateau IA -- Groupe 25}
+\newcommand{\tameoDocumentType}{Manuel du Module Vision}
+\newcommand{\tameoPdfTitle}{Manuel du Module Vision}
+\newcommand{\tameoPdfAuthor}{Projet TAMEO}
+
+\newcommand{\tameoAuthorsBlockA}{%
+    \tameoAuthorCell{CAVALLARO}{Vinicius Cesar}{vinicius-cesar.cavallaro@ensta.fr}
+    & \tameoAuthorCell{COUERRE}{Loup}{loup.couerre@ensta.fr}
+    \tabularnewline[0.56in]
+    \tameoAuthorCell{DIAS LEITE}{Julia Ellen}{julia-ellen.dias@ensta.fr}
+    & \tameoAuthorCell{MARCHÉ}{Benoît}{benoit.marche@ensta.fr}
+}
+
+\newcommand{\tameoAuthorsBlockB}{%
+    \tameoAuthorCell{DA SILVEIRA}{Lucas}{lucas.da-silveira-absalao@ensta.fr}
+    & \tameoAuthorCell{DE SOUZA AMODIO}{Lucca}{lucca.de-souza-amodio@ensta.fr}
+    \tabularnewline[0.56in]
+    \tameoAuthorCell{NOUKOUA TATMFO}{Maeva sandy}{maeva-sandy.noukoua@ensta.fr}
+    & \tameoAuthorCell{TARAZONA JIMENEZ}{Javier andres}{javier-andres.tarazona@ensta.fr}
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=tameoBlue,
+    urlcolor=tameoLink,
+    pdftitle={\tameoPdfTitle},
+    pdfauthor={\tameoPdfAuthor}
+}
+
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.35em}
+\renewcommand{\arraystretch}{1.18}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlength{\emergencystretch}{1.5em}
+
+\titleformat{\section}
+  {\sffamily\bfseries\LARGE\color{tameoBlue}}
+  {\thesection}{0.75em}{}
+\titleformat{\subsection}
+  {\sffamily\bfseries\large\color{tameoBlue}}
+  {\thesubsection}{0.75em}{}
+\titlespacing*{\section}{0pt}{1.3em}{0.65em}
+\titlespacing*{\subsection}{0pt}{1.05em}{0.35em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[R]{\thepage}
+
+\newcommand{\tameoBranding}{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=north east] at ([xshift=-1.16in,yshift=-0.58in]current page.north east)
+            {\includegraphics[width=1.98in]{tameo-logo.png}};
+        \node[anchor=north east] at ([xshift=-1.18in,yshift=-1.12in]current page.north east)
+            {\includegraphics[width=2.05in,height=0.026in]{tameo-bar.png}};
+    \end{tikzpicture}%
+}
+
+\newcommand{\tameoAuthorCell}[3]{%
+    \begin{minipage}[t]{2.6in}
+        \raggedright
+        \hyphenpenalty=10000
+        \exhyphenpenalty=10000
+        {\sffamily\fontsize{10.8}{12.6}\selectfont #1\par}
+        {\sffamily\fontsize{10.2}{12}\selectfont #2\par}
+        {\sffamily\fontsize{6.45}{7.6}\selectfont\href{mailto:#3}{#3}\par}
+    \end{minipage}%
+}
+
+\newcommand{\maketameotitle}{%
+    \begin{titlepage}
+        \thispagestyle{empty}
+        \begin{tikzpicture}[remember picture,overlay]
+            \node[anchor=north east] at ([xshift=-1.37in,yshift=-2.42in]current page.north east)
+                {\includegraphics[width=1.82in]{tameo-logo.png}};
+            \node[anchor=north west] at ([xshift=1.16in,yshift=-3.00in]current page.north west)
+                {\includegraphics[width=6.55in,height=0.115in]{tameo-bar.png}};
+        \end{tikzpicture}
+
+        \vspace*{1.82in}
+        {\noindent\hspace*{\tameoCoverIndent}\sffamily\bfseries\fontsize{42}{50}\selectfont\color{tameoBlue}\tameoTitle\par}
+        \vspace{0.45in}
+        {\noindent\hspace*{\tameoCoverIndent}\sffamily\itshape\fontsize{16}{20}\selectfont\color{tameoText}\tameoDocumentType\par}
+
+        \vspace{0.46in}
+        \noindent\hspace*{\tameoCoverIndent}\makebox[0pt][l]{%
+            \begin{tabular*}{5.95in}{@{\extracolsep{\fill}}ll@{}}
+                \tameoAuthorsBlockA
+            \end{tabular*}%
+        }\par
+        \vspace{0.25in}
+        \noindent\hspace*{\tameoCoverIndent}\makebox[0pt][l]{%
+            \begin{tabular*}{5.95in}{@{\extracolsep{\fill}}ll@{}}
+                \tameoAuthorsBlockB
+            \end{tabular*}%
+        }
+    \end{titlepage}
+}
+
+\makeatletter
+\newcommand{\styledtableofcontents}{%
+    \thispagestyle{fancy}
+    \vspace*{1.05in}
+    {\sffamily\bfseries\fontsize{24}{29}\selectfont\color{tameoBlue}Table des matières\par}
+    \vspace{0.85in}
+    \begingroup
+    \parskip=0.18em
+    \@starttoc{toc}
+    \endgroup
+    \newpage
+}
+\makeatother
+
+\begin{document}
+
+\maketameotitle
+\setcounter{page}{2}
+\AddToShipoutPictureBG{\tameoBranding}
+\styledtableofcontents
+
+\section{Présentation du module}
+
+Le module Vision est la partie du projet chargée de percevoir l’environnement maritime autour du bateau autonome. Son rôle principal est de détecter les bouées, les obstacles et les éléments utiles à la navigation, puis de fournir des informations exploitables par les autres modules du système.
+
+Dans l’état actuel du dépôt, le module repose principalement sur :
+
+\begin{itemize}
+    \item des caméras Stereolabs ZED X One connectées à une Jetson AGX Orin ;
+    \item un pipeline de détection basé sur YOLO et l’API ZED ;
+    \item des scripts d’installation séparés pour Linux, Windows et Jetson ;
+    \item un dataset annoté et un script d’entraînement pour adapter le modèle aux objets maritimes.
+\end{itemize}
+
+Les sorties attendues sont les détections d’objets, leur classe, leur score de confiance et, lorsque la profondeur ZED est disponible, leur position 3D ou leur distance approximative.
+
+\section{Matériel utilisé}
+
+Le système Vision est prévu pour fonctionner avec le matériel suivant :
+
+\begin{itemize}
+    \item Jetson AGX Orin 64 GB Devkit ;
+    \item 4 caméras Stereolabs ZED X One GMSL2 ;
+    \item drivers GMSL2 / ZED Link compatibles avec la version JetPack installée ;
+    \item stockage externe, par exemple le dossier \verb|`ASSD`|, afin d’éviter de saturer le stockage interne de la Jetson.
+\end{itemize}
+
+Pour démarrer la Jetson, connecter l’alimentation, allumer l’interrupteur du boîtier, puis appuyer environ deux secondes sur le bouton de démarrage de la Jetson. Une fois démarrée, elle peut être utilisée comme un ordinateur Linux avec écran, clavier et souris.
+
+\section{Prérequis logiciels}
+
+Avant d’installer le module, les éléments suivants doivent être disponibles :
+
+\begin{itemize}
+    \item Python 3 avec un environnement virtuel dédié ;
+    \item pip à jour ;
+    \item JetPack / CUDA sur Jetson ;
+    \item ZED SDK installé avec l’option Python API ;
+    \item pyzed.sl, installé via le SDK ZED et non via pip ;
+    \item PyTorch et Torchvision compatibles avec la plateforme, surtout sur Jetson ;
+    \item les dépendances Python du dépôt via requirements.txt et, si nécessaire, requirements-gpu-jetson.txt.
+\end{itemize}
+
+Pour vérifier que l’API Python de ZED est disponible :
+
+\begin{verbatim}
+python -c "import pyzed.sl as sl; print('OK')"
+\end{verbatim}
+
+Sur Jetson, il faut choisir la version du SDK ZED correspondant à la version JetPack / L4T installée. Les caméras ZED X One GMSL2 nécessitent aussi les drivers GMSL2 / ZED Link adaptés.
+
+\section{Installation}
+
+Le dépôt source du module Vision est disponible à l’adresse suivante : \url{https://github.com/TameoMEBC/Code2026/tree/IA/planning/CodeAIClass/Vision}.
+
+\subsection{Installation Linux}
+
+Depuis la racine du dépôt :
+
+\begin{verbatim}
+python3 -m venv .venv
+source .venv/bin/activate
+bash scripts/installation/install_linux.sh
+\end{verbatim}
+
+Pour une installation CPU uniquement :
+
+\begin{verbatim}
+INSTALL_GPU=0 bash scripts/installation/install_linux.sh
+\end{verbatim}
+
+\subsection{Installation Windows}
+
+Depuis PowerShell :
+
+\begin{verbatim}
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+.\scripts\installation\install_windows.ps1
+\end{verbatim}
+
+Pour une installation CPU uniquement :
+
+\begin{verbatim}
+.\scripts\installation\install_windows.ps1 -CpuOnly
+\end{verbatim}
+
+\subsection{Installation Jetson}
+
+Sur Jetson, il est recommandé d’utiliser le script dédié :
+
+\begin{verbatim}
+/usr/bin/python3.10 -m venv .venv
+source .venv/bin/activate
+bash scripts/installation/install_jetson.sh --show-config
+bash scripts/installation/install_jetson.sh
+\end{verbatim}
+
+Le script scripts/installation/install\_jetson.sh vérifie que la machine est bien une Jetson, détecte la version L4T / JetPack, configure l’installation de PyTorch et Torchvision, installe les dépendances du projet, puis lance une vérification de l’environnement.
+
+Sur la configuration de référence JetPack 6.2, le dépôt utilise :
+
+\begingroup
+\scriptsize
+\begin{verbatim}
+python -m pip install torch==2.8.0 torchvision==0.23.0 --index-url=https://pypi.jetson-ai-lab.io/jp6/cu126
+\end{verbatim}
+\endgroup
+
+Si PyTorch et Torchvision sont déjà installés dans l’environnement virtuel actif :
+
+\begin{verbatim}
+JETSON_SKIP_TORCH_INSTALL=1 bash scripts/installation/install_jetson.sh
+\end{verbatim}
+
+Si le téléchargement du wheel PyTorch doit être réutilisé :
+
+\begin{verbatim}
+bash scripts/installation/install_jetson.sh --cache-torch-whl
+\end{verbatim}
+
+\section{Vérification des caméras}
+
+Le service des caméras ZED peut être redémarré avec :
+
+\begin{verbatim}
+sudo systemctl restart zed_media_server_cli.service
+\end{verbatim}
+
+L’outil de statut ZED peut ensuite être lancé avec :
+
+\begin{verbatim}
+ZED_Media_server
+\end{verbatim}
+
+Ces commandes permettent de vérifier que les caméras sont détectées et que le flux vidéo est disponible avant de lancer le module Vision.
+
+\section{Utilisation du module}
+
+Le script principal se trouve dans main/vision.py. Il attend un flux ZED distant, un port, un modèle ONNX et, optionnellement, un fichier de calibration OpenCV.
+
+Exemple de lancement :
+
+\begin{verbatim}
+python main/vision.py \
+--ip <IP_DU_STREAM_ZED> \
+--port <PORT_DU_STREAM_ZED> \
+--onnx main/yolo11n.onnx \
+--calib main/zed_calibration_171225_1.yml
+\end{verbatim}
+
+Le programme ouvre le flux ZED, active la détection d’objets avec un modèle YOLO-like au format ONNX, puis affiche périodiquement les objets détectés. Les informations affichées comprennent principalement :
+
+\begin{itemize}
+    \item le nombre d’objets détectés ;
+    \item la confiance de détection ;
+    \item la classe prédite ;
+    \item la position 3D estimée par la ZED lorsque la profondeur est disponible.
+\end{itemize}
+
+Le seuil de confiance, la fréquence d’affichage et la taille d’entrée du modèle sont actuellement définis directement dans main/vision.py avec les variables CONF\_THRESHOLD, PRINT\_HZ et INPUT\_SIZE.
+
+\section{Dataset et entraînement}
+
+Le dataset principal est configuré dans data/data.yaml. Il contient actuellement trois classes :
+
+\begin{itemize}
+    \item green\_buoy ;
+    \item buoy\_dynamic ;
+    \item white\_buoy.
+\end{itemize}
+
+Les fichiers Train.txt, Validation.txt et Test.txt définissent les ensembles utilisés pour l’entraînement, la validation et le test.
+
+Le script d’entraînement est scripts/train/train.py. Il utilise Ultralytics YOLO, le modèle par défaut models/yolo26.pt, et enregistre les résultats dans runs/train.
+
+\subsection{Lancement standard :}
+
+\begin{verbatim}
+python scripts/train/train.py
+\end{verbatim}
+
+Test rapide :
+
+\begin{verbatim}
+python scripts/train/train.py --epochs 5 --batch 8 --name smoke_test
+\end{verbatim}
+
+Exemple avec un choix explicite du périphérique :
+
+\begingroup
+\footnotesize
+\begin{verbatim}
+python scripts/train/train.py --device 0 --epochs 100 --batch 16 --name yolo26_maritime
+\end{verbatim}
+\endgroup
+
+Si une exécution portant le même nom possède déjà un checkpoint last.pt, le script peut reprendre l’entraînement depuis ce checkpoint.
+
+\section{Résultats attendus}
+
+Pendant l’utilisation, le module doit permettre de confirmer que :
+
+\begin{itemize}
+    \item le flux ZED est ouvert correctement ;
+    \item le modèle ONNX est chargé par l’API ZED ;
+    \item les objets sont détectés avec un score de confiance suffisant ;
+    \item la position 3D ou la distance peut être exploitée pour la navigation ;
+    \item les détections sont suffisamment stables pour être transmises ensuite aux modules de planification ou au dashboard.
+\end{itemize}
+
+Pendant l’entraînement, les résultats sont enregistrés dans runs/train/\textless nom\_du\_run\textgreater. Les fichiers les plus utiles sont les courbes de performance, les images de validation annotées et les poids best.pt et last.pt.
+
+\section{Dépannage courant}
+
+Si pyzed.sl n’est pas trouvé, il ne faut pas l’installer avec pip. Il faut relancer l’installation de l’API Python fournie par le ZED SDK dans le même environnement Python que le projet.
+
+Si l’installation Jetson échoue sur PyTorch ou Torchvision, vérifier la version JetPack / L4T :
+
+\begin{verbatim}
+cat /etc/nv_tegra_release
+dpkg-query --show nvidia-l4t-core
+\end{verbatim}
+
+Puis relancer :
+
+\begin{verbatim}
+bash scripts/installation/install_jetson.sh --show-config
+\end{verbatim}
+
+Si les caméras ne sont pas détectées, vérifier le service ZED, la connexion GMSL2 et la compatibilité des drivers ZED Link avec la version L4T installée.
+
+Si le module ne détecte aucun objet, vérifier le chemin du modèle ONNX, le seuil de confiance, la disponibilité du flux ZED et l’adéquation entre les classes du modèle et les objets présents dans la scène.
+
+\section{Conclusion}
+
+Le module Vision fournit la base de perception du bateau autonome. Il regroupe l’acquisition caméra, la détection par modèle YOLO, l’estimation de position via la ZED et les outils d’entraînement du modèle. Le manuel permet de reproduire l’installation, de lancer le module et de diagnostiquer les erreurs les plus courantes lors des tests sur Jetson ou sur une machine de développement.
+
+\end{document}
