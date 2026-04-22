@@ -50,8 +50,8 @@
 % Modifiez uniquement ce bloc pour creer un nouveau document TAMEO.
 % ---------------------------------------------------------------------------
 \newcommand{\tameoTitle}{Bateau IA -- Groupe 25}
-\newcommand{\tameoDocumentType}{Analyse des Risques Final }
-\newcommand{\tameoPdfTitle}{Document TAMEO}
+\newcommand{\tameoDocumentType}{Analyse des risques finale}
+\newcommand{\tameoPdfTitle}{Analyse des risques finale du projet TAMEO-IA}
 \newcommand{\tameoPdfAuthor}{Projet TAMEO}
 
 \newcommand{\tameoAuthorsBlockA}{%
@@ -172,5 +172,154 @@
 
 \section{Introduction}
 
+Ce document présente l'analyse finale des risques du projet TAMEO-IA.
+Il reprend la matrice initiale issue du fichier 
+\texttt{rapport intermediaire}.
+
+L'objectif est de qualifier chaque risque initial au regard de l'état réel du projet : mise en place du pipeline Vision, intégration du BlueBoat, choix BlueOS et ArduPilot, préparation de l'interface VESC, conception de bancs de test, suivi réglementaire et travaux restants sur le bateau réel.
+
+\section{Méthode de classement}
+
+Chaque risque est caractérisé par deux informations séparées. 
+La colonne \textbf{Origine} indique si le risque vient de la matrice 
+initiale, 
+ou d'un constat ajouté depuis le retour d'expérience du dossier de réalisation. La colonne \textbf{Statut final} indique son état à la fin de la période décrite.
+
+\begin{itemize}
+    \item \textbf{N'est plus pertinent} : le risque concernait une approche qui n'est plus centrale dans l'état final du projet, ou dont l'impact n'est plus déterminant.
+    \item \textbf{Concrétisé} : le risque s'est effectivement produit et a dû être traité pendant le projet.
+    \item \textbf{Évité} : le risque a été réduit par une action explicite et ne constitue plus un point bloquant immédiat.
+    \item \textbf{Encore présent} : le risque reste ouvert, notamment parce qu'une validation sur le bateau réel, une mesure embarquée ou une intégration finale reste à effectuer.
+\end{itemize}
+
+\section{Synthèse des constats}
+
+Le projet a fortement réduit les risques liés à l'absence de plateforme de test. Le BlueBoat a servi de banc d'essai pour la Jetson, les caméras, les communications MAVLink, l'accès distant, QGroundControl et une partie de l'intégration des composants réels. Il a aussi permis de contourner l'indisponibilité tardive du bateau final.
+
+La partie Vision a progressé de manière mesurable : environnement multi-plateforme, annotation CVAT, entraînements YOLO26, tests d'inférence et premiers exports. En revanche, plusieurs risques restent ouverts car les métriques validées portent surtout sur deux classes de bouées et non sur le docking, la robustesse météo réelle, la latence embarquée complète ou les distances ZED en conditions de compétition.
+
+Les risques les plus structurants qui se sont concrétisés concernent l'intégration embarquée : compatibilité BlueOS avec les VESC, dépendances matérielles, accès tardif au bateau final, évolution du règlement et besoin d'un système hybride pilote/radiocommande. Ces risques n'ont pas tous bloqué le projet, mais ils ont consommé du temps et ont orienté l'architecture finale.
+
+Enfin, les risques associés à la simulation 2D détaillée et au RL deviennent moins pertinents dans l'analyse finale, car le dossier de réalisation présente une trajectoire de validation centrée sur le BlueBoat, les bancs d'essai, MAVLink, QGroundControl et l'intégration physique plutôt que sur une validation par jumeau numérique ou apprentissage par renforcement.
+
+\section{Tableau final des risques}
+
+Où Crit. c'est la criticité initiale du risque, calculée comme le produit de sa probabilité estiméee d'occurrence et de son impact potentiel.
+ 
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{2.4pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}L{1.55cm}L{2.05cm}L{3.25cm}L{1.95cm}L{1.05cm}L{2.15cm}L{3.55cm}@{}}
+    \caption{Analyse finale des risques}\\
+    \toprule
+    Origine & Pôle & Risque & Type & Crit. & Statut final & Justification finale \\
+    \midrule
+    \endfirsthead
+    \toprule
+    Origine & Pôle & Risque & Type & Crit. & Statut final & Justification finale \\
+    \midrule
+    \endhead
+    \midrule
+    \multicolumn{7}{r}{\small Suite page suivante}\\
+    \endfoot
+    \bottomrule
+    \endlastfoot
+    Initial & DevOps / Code & Environnement non reproductible (CUDA, ZED SDK) & technique & 9 & Évité & Des procédures d'installation Linux, Windows et Jetson ont été préparées en tenant compte de JetPack, CUDA, PyTorch, Ultralytics, SDK ZED et drivers. \\
+    Initial & DevOps / Code & Repos vision/simu désynchronisés & organisation & 6 & N'est plus pertinent & Le dossier final ne présente pas la synchronisation vision/simulation comme axe critique ; la validation repose surtout sur BlueBoat et intégration physique. \\
+    Initial & DevOps / Code & Docker non fonctionnel (drivers GPU) & technique & 6 & N'est plus pertinent & L'état réalisé décrit des procédures d'installation et de configuration, sans faire de Docker le support de déploiement déterminant. \\
+    Initial & DevOps / Code & Pas de tests/CI entraînant des régressions & organisation & 6 & Encore présent & Des tests d'inférence et des validations manuelles sont décrits, mais aucun dispositif CI systématique n'est présenté. \\
+    Initial & DevOps / Code & Git mal organisé (branches, merges) & organisation & 6 & Encore présent & Le dossier mentionne des livrables et de la documentation, mais pas une organisation Git stabilisée ou contrôlée. \\
+
+    Initial & Intégration / Embarqué & Format de messages mal défini (unités, repères) & technique & 9 & Encore présent & Les communications MAVLink sont en place, mais les modules de navigation et la validation complète des échanges restent à poursuivre. \\
+    Initial & Intégration / Embarqué & Incompatibilité inter-pôles (API, versions) & organisation & 9 & Concrétisé & L'intégration Jetson, ZED, BlueOS, ArduPilot et VESC a révélé plusieurs incompatibilités de versions et d'interfaces. \\
+    Initial & Intégration / Embarqué & Logs insuffisants, debug impossible sur l'eau & organisation & 9 & Encore présent & La supervision BlueOS/QGroundControl existe, mais le dossier ne valide pas une stratégie complète de logs pour les essais sur l'eau. \\
+    Initial & Intégration / Embarqué & Interface CAN non maîtrisée (lecture/écriture) & technique & 8 & N'est plus pertinent & L'architecture retenue pour les VESC repose sur UART via SERIAL1 et non sur une interface CAN. \\
+    Initial & Intégration / Embarqué & Latence ou perte de messages (CAN/middleware) & technique & 8 & Encore présent & Les communications MAVLink et UART sont préparées, mais la fiabilité en conditions réelles reste à valider. \\
+    Initial & Intégration / Embarqué & Crash logiciel embarqué (drivers, mémoire) & technique & 8 & Encore présent & La Jetson et le stack vision sont installés, mais la robustesse embarquée complète n'est pas démontrée en compétition. \\
+    Initial & Intégration / Embarqué & Absence watchdog ou mode dégradé (safety) & technique & 8 & Encore présent & QGroundControl permet une reprise en main, mais le dossier ne décrit pas de watchdog logiciel autonome complet. \\
+
+    Initial & Jour J / Terrain & Temps insuffisant pour calibrer et valider & temporel & 8 & Encore présent & Les tests et ajustements sur le bateau réel restent explicitement à réaliser. \\
+    Initial & Jour J / Terrain & Météo difficile perturbant la vision & environnement & 6 & Encore présent & Les augmentations du dataset prennent en compte reflets et lumière, mais la robustesse en météo réelle n'est pas entièrement validée. \\
+    Initial & Jour J / Terrain & Télémétrie ou monitoring indisponible & technique & 6 & Évité & BlueOS, QGroundControl, SSH/VNC et la station à terre fournissent une capacité de supervision et de reprise en main. \\
+    Initial & Jour J / Terrain & Tests sur place non validés & technique & 4 & Encore présent & Le dossier prévoit encore des essais en conditions réelles sur le bateau final. \\
+    Initial & Jour J / Terrain & Bateau cassé lors du transport & technique & 4 & Encore présent & Aucun élément du dossier ne permet de considérer ce risque logistique comme clos. \\
+
+    Initial & Navigation / Localisation & Stratégie de navigation mal définie (priorités) & organisation & 9 & Encore présent & Le dossier décrit le rôle attendu du module navigation, mais pas une stratégie finale validée sur bateau réel. \\
+    Initial & Navigation / Localisation & ZED positional tracking diverge & technique & 8 & Encore présent & Les caméras ZED sont intégrées et documentées, mais le suivi de pose ZED n'est pas validé comme solution finale. \\
+    Initial & Navigation / Localisation & Fusion capteurs GPS et vision mal conçue & technique & 8 & Encore présent & Le GPS secondaire et les caméras sont préparés, mais la fusion GPS/vision reste une étape d'intégration. \\
+    Initial & Navigation / Localisation & Repères ou transformations coordonnées erronés & technique & 8 & Encore présent & Les repères de navigation devront être validés avec les modules de trajectoire et les essais réels. \\
+    Initial & Navigation / Localisation & Global localization échoue en environnement pauvre & technique & 6 & Encore présent & Aucune validation finale de localisation globale n'est décrite dans le dossier de réalisation. \\
+    Initial & Navigation / Localisation & GPS trop imprécis pour valider trajectoire & technique & 6 & Encore présent & Un GPS IP67 et des tests de qualité GPS sont mentionnés, mais la précision de trajectoire reste à confirmer. \\
+
+    Initial & Organisation / Gestion & Pas de jalons démo, intégration trop tardive & organisation & 12 & Évité & Le BlueBoat, les bancs de test et les livrables intermédiaires ont permis d'avancer avant le bateau final. \\
+    Initial & Organisation / Gestion & Planning irréaliste (trop de chantiers) & organisation & 9 & Concrétisé & Le dossier indique que la résolution des risques d'intégration a demandé un investissement temporel important et impacté le calendrier. \\
+    Initial & Organisation / Gestion & Démotivation ou surcharge équipe & humain & 8 & N'est plus pertinent & Le dossier ne rapporte pas ce risque comme difficulté finale structurante. \\
+    Initial & Organisation / Gestion & Budget insuffisant (capteurs/compute) & financier & 6 & Évité & Le suivi du budget, des sponsors, des commandes et des composants a permis de limiter les blocages financiers. \\
+    Initial & Organisation / Gestion & Dépendances externes non anticipées (matériel) & temporel & 6 & Concrétisé & Les besoins matériels fréquents, les fournisseurs et les délais de réception sont identifiés comme une difficulté réelle. \\
+    Initial & Organisation / Gestion & Défaillance de communication avec l'équipe bateau physique & organisation & 8 & Évité & La conception du bateau réel a été menée en collaboration avec les étudiants de première année de TAMEO. \\
+    Initial & Organisation / Gestion & Indisponibilité du bateau final pour les essais avant compétition & temporel & 4 & Concrétisé & L'accès tardif au châssis final est présenté comme une contrainte majeure du projet. \\
+
+    Initial & Simulation 2D & Modèle dynamique éloigné du réel & technique & 12 & N'est plus pertinent & La validation finale décrite s'appuie sur le BlueBoat, les bancs de test et l'intégration physique. \\
+    Initial & Simulation 2D & Paramètres BlueBoat mal estimés ou inconnus & technique & 9 & N'est plus pertinent & Le BlueBoat est utilisé comme plateforme réelle plutôt que comme simple modèle simulé. \\
+    Initial & Simulation 2D & Garde-fous absents, commandes irréalistes & technique & 8 & N'est plus pertinent & Les garde-fous opérationnels se déplacent vers QGroundControl, MAVLink, les bancs de test et la reprise en main. \\
+    Initial & Simulation 2D & Vent ou courant ignorés, stratégie fausse & technique & 6 & N'est plus pertinent & Le dossier ne retient pas la simulation 2D comme source principale de validation de stratégie. \\
+    Initial & Simulation 2D & Discrétisation états/actions mal choisie & technique & 6 & N'est plus pertinent & Les choix finaux décrits ne reposent pas sur une discrétisation de simulation 2D. \\
+    Initial & Simulation 2D & Intégration positions bouées incohérente & technique & 6 & N'est plus pertinent & Le risque se rattache à la simulation ; l'analyse finale se concentre sur perception et essais réels. \\
+    Initial & Simulation 2D & Simulation non reproductible (seed, versions) & organisation & 6 & N'est plus pertinent & La reproductibilité critique concerne surtout l'environnement Vision et Jetson documenté. \\
+
+    Initial & Training / Ressources & Temps d'entraînement sous-estimé (YOLO/RL) & temporel & 9 & Évité & Deux entraînements YOLO principaux et un test de segmentation ont été réalisés avec des métriques disponibles. \\
+    Initial & Training / Ressources & Accès cluster ENSTA tardif ou refusé & temporel & 8 & N'est plus pertinent & Le dossier ne présente pas le cluster ENSTA comme dépendance bloquante finale. \\
+    Initial & Training / Ressources & Stockage insuffisant ou données trop lourdes & technique & 6 & N'est plus pertinent & Aucun blocage final de stockage n'est identifié dans le dossier. \\
+    Initial & Training / Ressources & Suivi d'expériences absent & organisation & 6 & Évité & Les exécutions YOLO, métriques et comparaisons de modèles sont documentées. \\
+
+    Initial & Trajectoire / RL & Reward mal défini, comportement dangereux & technique & 12 & N'est plus pertinent & Le dossier final ne présente pas le RL comme solution de trajectoire validée. \\
+    Initial & Trajectoire / RL & Sur-apprentissage à la simulation & technique & 12 & N'est plus pertinent & La validation décrite ne repose pas sur un modèle RL entraîné en simulation. \\
+    Initial & Trajectoire / RL & RL ne converge pas & technique & 9 & N'est plus pertinent & Aucun résultat RL n'est utilisé comme élément final du projet. \\
+    Initial & Trajectoire / RL & Décision RL trop lente embarquée & technique & 8 & N'est plus pertinent & Le dossier ne retient pas une décision embarquée par RL comme architecture validée. \\
+    Initial & Trajectoire / RL & RL ignore l'incertitude capteurs & technique & 8 & N'est plus pertinent & Le risque appartient à une approche non retenue dans l'état final décrit. \\
+    Initial & Trajectoire / RL & Failsafe Dijkstra non fonctionnel ou non testé & technique & 8 & N'est plus pertinent & Le dossier ne décrit pas Dijkstra comme mécanisme de secours final. \\
+    Initial & Trajectoire / RL & Collision si bouée non détectée & technique & 8 & Encore présent & Les détections sont bonnes sur le dataset actif, mais la robustesse réelle, les faux négatifs et la météo restent à valider. \\
+    Initial & Trajectoire / RL & Retour au point connu échoue & technique & 6 & Encore présent & La localisation et les modes de retour sûrs ne sont pas validés comme fonctions finales. \\
+
+    Initial & Vision / Perception & YOLO ne détecte pas les bouées à 60 m & technique & 12 & Encore présent & Les métriques sont élevées sur le dataset actif, mais la performance à longue distance réelle reste à confirmer. \\
+    Initial & Vision / Perception & Latence vision trop élevée & technique & 12 & Encore présent & L'export est étudié, mais la latence embarquée complète sur Jetson n'est pas validée. \\
+    Initial & Vision / Perception & Dataset concours inutilisable & technique & 9 & Concrétisé & L'équipe a dû rechercher, trier et adapter des images maritimes pour constituer un dataset exploitable. \\
+    Initial & Vision / Perception & Dataset trop petit ou peu varié & technique & 9 & Concrétisé & Le manque initial d'images propres est identifié comme difficulté principale du pôle Vision. \\
+    Initial & Vision / Perception & Trop de faux positifs & technique & 9 & Encore présent & Les essais visuels montrent des détections cohérentes, mais les scènes avec reflets, vagues et objets difficiles restent à valider. \\
+    Initial & Vision / Perception & Distance ZED imprécise à courte portée & technique & 8 & Encore présent & Le dossier ne valide pas quantitativement la précision de distance ZED à courte portée. \\
+    Initial & Vision / Perception & Distance ZED instable à longue portée & technique & 8 & Encore présent & Les caméras ZED sont préparées, mais la précision à longue portée reste un risque ouvert. \\
+    Initial & Vision / Perception & Calibration caméra/stéréo incorrecte & technique & 8 & Encore présent & La vérification des caméras est documentée, mais la calibration finale en conditions réelles n'est pas close. \\
+    Initial & Vision / Perception & Synchronisation timestamps image/commande incorrecte & technique & 6 & Encore présent & L'intégration complète perception-commande reste à poursuivre avec les modules de navigation. \\
+    Initial & Vision / Perception & Défaillance capteur caméra/ZED & hardware & 4 & Encore présent & Les caméras sont intégrées physiquement, mais le risque matériel reste présent jusqu'aux essais finaux. \\
+
+    Ajouté & Vision / Perception & Incompatibilité du stack Jetson & technique & 16 & Concrétisé & La mise en place Jetson a été complexe à cause des versions JetPack, CUDA, PyTorch, Ultralytics, SDK ZED et drivers. \\
+    Ajouté & Vision / Perception & Annotations bruitées ou incohérentes & technique & 4 & Concrétisé & La cohérence des annotations CVAT a demandé des règles simples et une vérification des labels. \\
+    Ajouté & Vision / Perception & Décalage de domaine entre images en ligne et scènes réelles & technique & 9 & Encore présent & Une partie du dataset provient d'images en ligne ; davantage d'images réelles restent nécessaires. \\
+    Ajouté & Vision / Perception & Export et inférence embarquée pas complètement validés & technique & 4 & Encore présent & Les premiers exports existent, mais l'inférence embarquée complète avec caméras ZED et navigation reste à poursuivre. \\
+
+    Ajouté & Règlement & Évolution du règlement IA et bascule hybride pilote/radiocommande & organisation & 8 & Concrétisé & Les règles ont évolué pendant l'année et ont conduit à adopter un système hybride avec pilote et radiocommande. \\
+    Ajouté & Embarqué & Compatibilité BlueOS/ArduPilot avec VESC UART via script Lua & technique & 12 & Concrétisé & Les VESC n'étaient pas supportés nativement et ont nécessité une interface Lua traduisant PWM fictif vers UART. \\
+    Ajouté & Intégration & Manque de points d'eau accessibles pour les essais & environnement & 6 & Concrétisé & Le BlueBoat a été placé sur un support mobile pour permettre des tests à terre. \\
+    Ajouté & Intégration & Documentation spécifique du BlueBoat modifié insuffisante & organisation & 4 & Évité & Un manuel d'utilisation du BlueBoat modifié a été produit avec procédures, connexions et exemples de code. \\
+    Ajouté & Vision / Perception & Docking annoté mais non validé quantitativement & technique & 6 & Encore présent & Le docking est préparé au niveau annotation, mais aucune métrique validée n'est présentée. \\
+    Ajouté & Navigation & Navigation autonome non encore intégrée et validée & technique & 12 & Encore présent & Les modules de navigation restent à poursuivre après la perception et l'intégration embarquée. \\
+    Ajouté & Bateau réel & Direction, radiocommande et essais bateau réel à finaliser & technique & 12 & Encore présent & Le dossier indique qu'il reste l'intégration du moteur de direction, de la radiocommande et les essais réels. \\
+    Ajouté & Intégration & Contraintes d'étanchéité, alimentation et centre de gravité Jetson/caméras & technique & 8 & Évité & Une boîte étanche mobile, des supports caméra et un câblage électrique dédié ont été réalisés. \\
+    Ajouté & Bateau réel & Dimensionnement réel du système de direction électrique et du safran à valider & technique & 9 & Encore présent & L'architecture est validée, mais la fabrication du safran et les essais en conditions réelles restent prévus. \\
+\end{longtable}
+\endgroup
+
+\section{Risques ajoutés depuis le retour d'expérience}
+
+Les risques ajoutés depuis le dossier ne remplacent pas la matrice initiale. Ils correspondent aux points apparus clairement pendant la réalisation : évolution réglementaire, incompatibilité VESC, difficulté d'accès aux plans d'eau, besoin de documentation opérationnelle, validation encore partielle du docking, intégration de la navigation autonome, finalisation de la direction et contraintes physiques de l'intégration Jetson.
+
+Ces risques montrent que la trajectoire réelle du projet a été moins centrée sur la simulation et davantage sur la capacité à rendre le système exploitable sur une plateforme physique. Le BlueBoat a donc joué un rôle de réduction de risque, mais il n'a pas supprimé la nécessité de valider le comportement complet sur le bateau final.
+
+\section{Conclusion}
+
+L'analyse finale montre que plusieurs risques initiaux ont été évités grâce à l'utilisation du BlueBoat, à la documentation du module Vision, à la supervision par QGroundControl et à la mise en place de bancs de test. D'autres risques se sont concrétisés, notamment les incompatibilités logicielles et matérielles, l'accès tardif au bateau final, les dépendances fournisseurs et les évolutions du règlement.
+
+Les principaux risques encore présents concernent la validation en conditions réelles : comportement de la navigation autonome, robustesse de la vision en météo variable, performance embarquée, calibration ZED, fiabilité des communications, direction électrique, radiocommande et essais sur le bateau final. La base technique est cohérente, mais la phase finale doit encore transformer les validations partielles en validation système complète.
 
 \end{document}
