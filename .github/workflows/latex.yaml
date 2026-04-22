@@ -23,6 +23,8 @@ jobs:
             RapportFinal/rapport.tex
             Template/tameo_template.tex
             Video/sceneario.tex
+            ManuelVision/manuelVision.tex
+            AnalyseRisquesFinal/AnalyseRisquesFinal.tex
           work_in_root_file_dir: true
 
       - name: Prepare GitHub Pages site
@@ -36,6 +38,8 @@ jobs:
           cp "RapportFinal/rapport.pdf" site/pdfs/rapport-final.pdf
           cp "Template/tameo_template.pdf" site/pdfs/tameo-template.pdf
           cp "Video/sceneario.pdf" site/pdfs/scenario-video.pdf
+          cp "ManuelVision/manuelVision.pdf" site/pdfs/manuel-vision.pdf
+          cp "AnalyseRisquesFinal/AnalyseRisquesFinal.pdf" site/pdfs/analyse-risques-final.pdf
 
           cat > site/index.html <<EOF
           <!doctype html>
@@ -114,6 +118,8 @@ jobs:
                 <a href="./pdfs/rapport-final.pdf?v=${version}">Rapport final</a>
                 <a href="./pdfs/tameo-template.pdf?v=${version}">Template TAMEO</a>
                 <a href="./pdfs/scenario-video.pdf?v=${version}">Scénario vidéo</a>
+                <a href="./pdfs/manuel-vision.pdf?v=${version}">Manuel Vision</a>
+                <a href="./pdfs/analyse-risques-final.pdf?v=${version}">Analyse des risques finale</a>
               </div>
             </main>
           </body>
@@ -135,6 +141,8 @@ jobs:
             RapportFinal/rapport.pdf
             Template/tameo_template.pdf
             Video/sceneario.pdf
+            ManuelVision/manuelVision.pdf
+            AnalyseRisquesFinal/AnalyseRisquesFinal.pdf
 
   deploy_pages:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
