@@ -391,7 +391,7 @@ La validation s'est construite progressivement plutôt qu'à travers une campagn
 \subsection{Planification réelle (Gantt actualisé)}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{Captura de tela 2026-04-10 141826.png}
+    \includegraphics[width=0.7\linewidth]{Gantt.png}
     \caption{Évolution du planning initial vers le planning réel.}
     \label{fig:placeholder}
 \end{figure}
@@ -414,7 +414,33 @@ MEBC 2026 & 7 000,00 € & Frais d'inscription, logistique et transport vers Mon
 Fond de roulement & 7 881,13 € & Réserve conservée pour la poursuite du projet l'année suivante et les imprévus futurs. \\
 Communication \& Divers & 3 600,00 € & Permis, frais bancaires, supports de communication. \\
 \bottomrule
-\end{tabularx}
+\end{tabularx}\\
+
+\vspace{0.5cm}
+
+L'analyse du budget montre qu'il est à la fois réaliste, flexible et soutenable dans le cadre du projet. En effet, celui-ci est actualisé environ tous les mois, ce qui permet de suivre précisément l'évolution des dépenses mais aussi des recettes. Cette mise à jour régulière est essentielle, car une partie significative du financement repose sur des contrats de sponsoring, dont le montant peut varier tout au long du projet.
+
+Malgré cette variabilité, le budget est largement respecté cette année, notamment grâce à la signature de nouveaux contrats en cours. Cela permet de maintenir une bonne visibilité financière et de limiter les risques liés à d'éventuels écarts.
+
+Par ailleurs, les budgets techniques ont été volontairement dimensionnés de manière prudente et relativement large. Cette approche permet d'anticiper plusieurs types de risques :
+
+\begin{itemize}
+    \item une augmentation des prix des composants,
+    \item une sous-estimation initiale des besoins matériels,
+    \item ou encore des dépendances externes, comme les délais fournisseurs ou la disponibilité des pièces.
+\end{itemize}
+
+Cette marge de sécurité se traduit aujourd'hui par une trésorerie encore confortable, qui présente plusieurs avantages :
+
+\begin{itemize}
+    \item poursuivre l'amélioration des bateaux d'ici l'Energy Boat Challenge,
+    \item acheter des pièces en double pour anticiper d'éventuelles casses ou incidents pendant les courses à Monaco,
+    \item et conserver une réserve financière pour les projets futurs.
+\end{itemize}
+
+Il est à noter que certains postes peuvent rester fortement variables, notamment en raison du coût élevé de certaines pièces techniques achetées en double pour sécuriser le projet. Ces dépenses, bien que importantes, sont assumées et intégrées dans la stratégie globale de gestion du risque.
+
+Ainsi, à l'heure actuelle, il n'y a aucune tension de trésorerie, bien au contraire : l'association dispose encore de réserves significatives, qui pourront être en partie réutilisées pour les activités futures de Taméo.
 
 \subsection{Évolution et gestion des risques}
 Les risques du projet ont surtout évolué autour de la disponibilité des données, de l'intégration embarquée et de la transition entre le BlueBoat et le bateau final. Le manque initial d'images de bouées et de docking a été traité par la constitution progressive d'un jeu de données exploitable, l'annotation sous CVAT et la mise en place de règles d'annotation plus homogènes. La complexité de l'environnement Jetson a également été identifiée comme un risque technique, car elle imposait de rendre compatibles JetPack, CUDA, PyTorch, Ultralytics, le SDK ZED et les drivers des caméras.

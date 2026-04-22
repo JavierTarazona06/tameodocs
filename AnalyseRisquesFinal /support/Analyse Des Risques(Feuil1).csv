@@ -1,0 +1,64 @@
+﻿Pôle;Description;Type de risque;Fréquence (1-4);Gravité (1-4);Criticité (=F×G);AJOUTÉ?;;;;
+DevOps / Code;Environnement non reproductible (CUDA, ZED SDK);technique;3;3;9;;;;Légende ;Risque:
+DevOps / Code;Repos vision/simu désynchronisés;organisation;2;3;6;;;;;Plus pertinent
+DevOps / Code;Docker non fonctionnel (drivers GPU);technique;2;3;6;;;;;Concrétisé
+DevOps / Code;Pas de tests/CI → régressions;organisation;2;3;6;;;;;Evité
+DevOps / Code;Git mal organisé (branches, merges);organisation;3;2;6;;;;;Ajouté
+Intégration / Embarqué;Format de messages mal défini (unités, repères);technique;3;3;9;;;;;Encore présent
+Intégration / Embarqué;Incompatibilité inter-pôles (API, versions);organisation;3;3;9;;;;Il s'agit de surligner la ligne du risque en question;
+Intégration / Embarqué;Logs insuffisants → debug impossible sur l’eau;organisation;3;3;9;;;;;
+Intégration / Embarqué;Interface CAN non maîtrisée (lecture/écriture);technique;2;4;8;;;;;
+Intégration / Embarqué;Latence/perte de messages (CAN/middleware);technique;2;4;8;;;;;
+Intégration / Embarqué;Crash logiciel embarqué (drivers, mémoire);technique;2;4;8;;;;;
+Intégration / Embarqué;Absence watchdog / mode dégradé (safety);technique;2;4;8;;;;;
+Jour J / Terrain;Temps insuffisant pour calibrer/valider;temporel;2;4;8;;;;;
+Jour J / Terrain;Météo difficile (reflets/vagues) perturbe vision;environnement;2;3;6;;;;;
+Jour J / Terrain;Télémétrie/monitoring indisponible;technique;2;3;6;;;;;
+Jour J / Terrain;Tests sur place non validés;technique;1;4;4;;;;;
+Jour J / Terrain;Bateau cassé lors du transport;technique;1;4;4;;;;;
+Navigation / Localisation;Stratégie de navigation mal définie (priorités);organisation;3;3;9;;;;;
+Navigation / Localisation;ZED positional tracking diverge (dérive pose);technique;2;4;8;;;;;
+Navigation / Localisation;Fusion capteurs GPS + vision mal conçue;technique;2;4;8;;;;;
+Navigation / Localisation;Repères/transformations coordonnées erronés;technique;2;4;8;;;;;
+Navigation / Localisation;Global localization échoue (environnement pauvre);technique;2;3;6;;;;;
+Navigation / Localisation;GPS trop imprécis pour valider trajectoire;technique;2;3;6;;;;;
+Organisation / Gestion;Pas de jalons démo → intégration trop tardive;organisation;3;4;12;;;;;
+Organisation / Gestion;Planning irréaliste (trop de chantiers);organisation;3;3;9;;;;;
+Organisation / Gestion;Démotivation / surcharge équipe;humain;2;4;8;;;;;
+Organisation / Gestion;Budget insuffisant (capteurs/compute);financier;2;3;6;;;;;
+Organisation / Gestion;Dépendances externes non anticipées (matériel);temporel;2;3;6;;;;;
+Organisation / Gestion;Défaillance de communication avec l'équipe en charge du bateau physique.;organisation;2;4;8;;;;;
+Organisation / Gestion;Indisponibilité du bateau final pour les essais avant la compétition;temporel;2;2;4;;;;;
+Simulation 2D;Modèle dynamique éloigné du réel (sim-to-real gap);technique;3;4;12;;;;;
+Simulation 2D;Paramètres BlueBoat mal estimés / inconnus;technique;3;3;9;;;;;
+Simulation 2D;Garde-fous absents → commandes irréalistes;technique;2;4;8;;;;;
+Simulation 2D;Vent/courant ignorés → stratégie fausse;technique;2;3;6;;;;;
+Simulation 2D;Discrétisation états/actions mal choisie;technique;2;3;6;;;;;
+Simulation 2D;Intégration positions bouées (bruit) incohérente;technique;2;3;6;;;;;
+Simulation 2D;Simulation non reproductible (seed, versions);organisation;2;3;6;;;;;
+Training / Ressources;Temps d’entraînement sous-estimé (YOLO/RL);temporel;3;3;9;;;;;
+Training / Ressources;Accès cluster ENSTA tardif / refusé;temporel;2;4;8;;;;;
+Training / Ressources;Stockage insuffisant / données trop lourdes;technique;2;3;6;;;;;
+Training / Ressources;Suivi d’expériences absent (pas de traçabilité);organisation;2;3;6;;;;;
+Trajectoire / RL;Reward mal défini → comportement dangereux;technique;3;4;12;;;;;
+Trajectoire / RL;Sur-apprentissage à la simulation (pas robuste);technique;3;4;12;;;;;
+Trajectoire / RL;RL ne converge pas (reward mal conçu);technique;3;3;9;;;;;
+Trajectoire / RL;Décision RL trop lente / trop lourde embarqué;technique;2;4;8;;;;;
+Trajectoire / RL;RL ignore incertitude capteurs (bruit);technique;2;4;8;;;;;
+Trajectoire / RL;Failsafe Dijkstra non fonctionnel / non testé;technique;2;4;8;;;;;
+Trajectoire / RL;Collision si bouée non détectée (faux négatif);technique;2;4;8;;;;;
+Trajectoire / RL;Retour au point connu échoue (perte localisation);technique;2;3;6;;;;;
+Vision / Perception;YOLO ne détecte pas les bouées à 60 m;technique;3;4;12;;;;;
+Vision / Perception;Latence vision trop élevée (non temps réel);technique;3;4;12;;;;;
+Vision / Perception;Dataset concours inutilisable (format, labels, classes);technique;3;3;9;;;;;
+Vision / Perception;Dataset trop petit / pas varié (météo, reflets, distance);technique;3;3;9;;;;;
+Vision / Perception;Trop de faux positifs (vagues, reflets, objets);technique;3;3;9;;;;;
+Vision / Perception;Distance ZED imprécise à courte portée (20 cm);technique;2;4;8;;;;;
+Vision / Perception;Distance ZED instable à longue portée (60 m);technique;2;4;8;;;;;
+Vision / Perception;Calibration caméra/stéréo incorrecte;technique;2;4;8;;;;;
+Vision / Perception;Synchronisation timestamps image/commande incorrecte;technique;2;3;6;;;;;
+Vision / Perception;Défaillance capteur caméra / ZED (câble, driver);hardware;1;4;4;;;;;
+Vision / Perception;Incompatibilité du stack Jetson;technique;4;4;16;NEW;;;;
+Vision / Perception;Annotations bruitées ou incohérentes;technique;1;4;4;NEW;;;;
+Vision / Perception;Décalage de domaine entre les images en ligne et les scènes réelles;technique;3;3;9;NEW;;;;
+Vision / Perception;Export / inférence embarquée pas complètement validé;technique;1;4;4;NEW;;;;
