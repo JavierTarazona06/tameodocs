@@ -26,7 +26,6 @@
 *.ps
 
 # PDF generado (opcional ignorarlo)
-*.pdf
 
 # Archivos de editores
 *.swp
