@@ -1,0 +1,134 @@
+% =============================================================================
+% Rédaction : apprentissage par renforcement (PPO) pour le contournement de bouée
+% Fragment LaTeX (\paragraph, minted) destiné à être inclus dans un rapport.
+%
+% Origine : dépôt TameoMEBC/IABoat, branche RL_test, fichier paper.md
+%           commit 404a423 du 2026-03-26 (YuhengZhangMelody)
+% Code associé (version à jour) : IABoat/main, Simulation/Simulation/RL/
+% =============================================================================
+
+\paragraph{RL}
+La validation préalable de l'algorithme DWA (\textit{Dynamic Window Approach}) sur l'environnement simulé a constitué un premier indicateur de fiabilité de la simulation. Son comportement cohérent dans ce cadre nous a donné confiance dans la représentativité du simulateur, et nous a permis d'engager sereinement le développement de l'agent par apprentissage par renforcement (RL).
+
+Comme expliqué au dessus, l'apprentissage par renforcement repose sur un agent qui explore son environnement en y effectuant des actions successives et qui reçoit en retour des signaux de récompense. L'agent cherche à maximiser la somme des récompenses cumulées au fil des épisodes, ce qui l'amène progressivement à adopter une stratégie optimale. Dans notre cas, la fonction de récompense est définie comme suit :
+
+\begin{itemize}
+\item \textbf{Récompense négative} à chaque pas de temps, pour inciter l'agent à agir efficacement et éviter les trajectoires trop longues ;
+\item \textbf{Pénalité négative} en cas de sortie du domaine de travail ou de collision avec une bouée ;
+\item \textbf{Récompense positive} lorsque le bateau atteint sa position cible.
+\end{itemize}
+
+Cependant, la tâche de contournement de bouée s'avère difficile à apprendre de manière spontanée : le comportement attendu (effectuer un tour complet autour d'un obstacle) est peu intuitif à déduire uniquement depuis les récompenses globales. Pour guider l'exploration de l'agent, nous avons introduit des \textit{waypoints} intermédiaires positionnés autour de chaque bouée, associés à des récompenses positives lors de leur franchissement. Cette approche de permet de décomposer la tâche en sous-objectifs atteignables, accélérant significativement la convergence.
+
+À terme, deux pistes sont envisagées pour s'affranchir de ces waypoints statiques : soit laisser l'agent apprendre à généraliser le comportement de contournement sans guidage, soit intégrer un module de coordination avec le système de navigation, qui génèrerait dynamiquement les waypoints dès la détection d'une bouée, offrant ainsi une interface adaptative entre perception et décision.
+
+Nous avons choisis représenter les waypoints sous forme de segments, plutôt que de points, car nous ne souhaitons pas surcontraindre la trajectoire du bateau. Ces segments jouent le rôle de lignes de franchissement, permettant de valider le passage dans une zone donnée tout en conservant une plus grande liberté de manœuvre. À l’inverse, des waypoints ponctuels imposeraient un guidage trop directif, peu compatible avec l’apprentissage d’un comportement de navigation plus général.
+
+\subparagraph{Construction de l'observation RL}
+
+L'observation de 14 features est construite à partir de la pose courante et de la géométrie locale :
+
+\begin{minted}{python3}
+def get_rl_state(boat, current_goal, buoys, prev_action, target_side):
+    """
+    Observation RL (14 features) pour la politique PPO.
+    
+    Géométrie locale:
+        - dist_to_goal = ||goal - boat||
+        - angle_error = atan2(goal_y-y, goal_x-x) - theta
+        - target_buoy = bouée la plus proche du waypoint
+        
+    Composantes orbitales:
+        - e_r = vecteur radial vers bouée
+        - e_t = vecteur tangentiel (selon target_side)
+        - v_radial = v · e_r (composante radiale)
+        - v_tangent = v · e_t (composante tangentielle)
+        - d_buoy = distance bouée
+    
+    Observation complète:
+        [x, y, theta, v, omega, dist_goal, cos_err, sin_err, 
+         prev_v, prev_omega, target_side, v_radial, v_tangent, d_buoy]
+    """
+    # Pose et goal
+    dist_to_goal = current_goal.get_distance(boat)
+    goal_x, goal_y = current_goal.get_position(boat)
+    angle_error = atan2(goal_y-boat.y, goal_x-boat.x) - boat.theta
+    cos_err = cos(angle_error)
+    sin_err = sin(angle_error)
+    
+    # Géométrie bouée
+    target_buoy = argmin_buoy(||(b.x,y)-(goal_x,y)||)
+    d_buoy, e_r, e_t = geometry_vectors(boat, target_buoy, target_side)
+    v_vec = [boat.v*cos(theta), boat.v*sin(theta)]
+    v_radial = dot(v_vec, e_r)
+    v_tangent = dot(v_vec, e_t)
+    
+    return np.array([boat.x, boat.y, boat.theta, boat.v, boat.omega,
+                     dist_to_goal, cos_err, sin_err,
+                     prev_action[0], prev_action[1],
+                     target_side, v_radial, v_tangent, d_buoy])
+\end{minted}
+
+\subparagraph{Fonction de récompense}
+
+La récompense combine plusieurs termes pondérés selon la distance à la bouée :
+
+\begin{minted}{python3}
+def compute_reward(boat, goal, buoy, config):
+    """
+    Récompense composite à 9 termes.
+    
+    Régimes dynamiques (gate dans [0,1]):
+    - gate = 0 : loin (navigation vers goal)
+    - gate = 1 : orbite (comportement orbital)
+    
+    Termes principaux:
+    1. r_vtpg  : alignement vitesse → goal
+    2. r_radius: maintien rayon cible
+    3. r_tangent: alignement cap → tangentielle
+    4. r_orbit: progression angulaire
+    5. r_danger: pénalité proximité bouées
+    6. r_boundary: pénalité bord polygone
+    7. r_smooth: pénalité jerk (deltaV, deltaOmega)
+    
+    r = sum w_i * r_i  (w_i interpolés par gate)
+    """
+    gate = clip((transition_r - d_buoy)/(transition_r - target_r), 0, 1)
+    
+    # Interpolation des poids
+    w_vtpg = w_vtpg_far*(1-gate) + w_vtpg_near*gate
+    w_radius = w_radius_far*(1-gate) + w_radius_near*gate
+    # ... autres poids
+    
+    # Termes de reward
+    r_vtpg = clip(dot(v, e_goal)/v_max, -1, 1)
+    r_radius = exp(-k * |d_buoy - target_r|)
+    r_tangent = cos(theta - psi_tangent)
+    r_orbit = clip(target_side * deltaPsi_bouée / psi_scale, -1, 1)
+    
+    return w_vtpg*r_vtpg + w_radius*r_radius + ...
+\end{minted}
+
+\subparagraph{Prédiction de la politique}
+
+À chaque pas de temps, la politique PPO prédit l'action :
+
+\begin{minted}{python3}
+def rl_step(boat, goal, buoys):
+    """
+    Boucle de contrôle RL en temps réel.
+    
+    1. state = get_rl_state(...)
+    2. state_norm = VecNormalize(state)
+    3. [v, omega] = PPO.predict(state_norm, deterministic=True)
+    4. x_next = motion_model(x, [v, omega], dt)
+    """
+    state = get_rl_state(boat, goal, buoys, prev_action, target_side)
+    state_norm = vec_env.normalize_obs(state)
+    action, _ = model.predict(state_norm, deterministic=True)
+    
+    v, omega = action
+    pose_next = Boat.motion_model_np(pose, [v, omega], dt)
+    
+    return pose_next, action
+\end{minted}
