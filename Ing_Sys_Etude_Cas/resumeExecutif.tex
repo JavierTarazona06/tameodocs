@@ -1,0 +1,653 @@
+\pdfminorversion=7
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\frenchsetup{SmallCapsFigTabCaptions=false}
+\usepackage[scale=0.95]{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{babel,positioning,arrows.meta,fit,calc,shapes.geometric}
+\usepackage{eso-pic}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{microtype}
+\usepackage{indentfirst}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+
+\graphicspath{{assets/}{img/}}
+
+\geometry{
+    letterpaper,
+    left=0.95in,
+    right=0.95in,
+    top=1.55in,
+    bottom=0.78in,
+    headheight=18pt,
+    headsep=18pt,
+    footskip=28pt
+}
+
+\definecolor{tameoBlue}{HTML}{173B5C}
+\definecolor{tameoLink}{HTML}{3A6B78}
+\definecolor{tameoText}{HTML}{13283A}
+\definecolor{tablerow}{RGB}{242, 244, 244}
+\definecolor{tameoPale}{HTML}{E8EEF3}
+\definecolor{okGreen}{HTML}{2E7D4F}
+\definecolor{warnAmber}{HTML}{B26A00}
+\definecolor{openRed}{HTML}{A33A3A}
+\newcommand{\tameoCoverIndent}{0.20in}
+
+% ---------------------------------------------------------------------------
+% Informations du document
+% ---------------------------------------------------------------------------
+\newcommand{\tameoTitle}{Bateau IA -- Groupe 25}
+\newcommand{\tameoDocumentType}{Résumé exécutif -- Système de détection et d'interception d'obstacles marins}
+\newcommand{\tameoPdfTitle}{Résumé exécutif TAMEO -- Détection et interception d'obstacles marins}
+\newcommand{\tameoPdfAuthor}{Projet TAMEO}
+
+\newcommand{\tameoAuthorsBlockA}{%
+    \tameoAuthorCell{CAVALLARO}{Vinicius Cesar}{vinicius-cesar.cavallaro@ensta.fr}
+    & \tameoAuthorCell{COUERRE}{Loup}{loup.couerre@ensta.fr}
+    \tabularnewline[0.56in]
+    \tameoAuthorCell{DIAS LEITE}{Julia Ellen}{julia-ellen.dias@ensta.fr}
+    & \tameoAuthorCell{MARCHÉ}{Benoît}{benoit.marche@ensta.fr}
+}
+
+\newcommand{\tameoAuthorsBlockB}{%
+    \tameoAuthorCell{DA SILVEIRA}{Lucas}{lucas.da-silveira-absalao@ensta.fr}
+    & \tameoAuthorCell{DE SOUZA AMODIO}{Lucca}{lucca.de-souza-amodio@ensta.fr}
+    \tabularnewline[0.56in]
+    \tameoAuthorCell{NOUKOUA TATMFO}{Maeva sandy}{maeva-sandy.noukoua@ensta.fr}
+    & \tameoAuthorCell{TARAZONA JIMENEZ}{Javier andres}{javier-andres.tarazona@ensta.fr}
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=tameoBlue,
+    urlcolor=tameoLink,
+    pdftitle={\tameoPdfTitle},
+    pdfauthor={\tameoPdfAuthor}
+}
+
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.35em}
+\renewcommand{\arraystretch}{1.18}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlength{\emergencystretch}{1.5em}
+\setlist{itemsep=0.15em,topsep=0.3em}
+
+\titleformat{\section}
+  {\sffamily\bfseries\LARGE\color{tameoBlue}}
+  {\thesection}{0.75em}{}
+\titleformat{\subsection}
+  {\sffamily\bfseries\large\color{tameoBlue}}
+  {\thesubsection}{0.75em}{}
+\titlespacing*{\section}{0pt}{1.3em}{0.65em}
+\titlespacing*{\subsection}{0pt}{1.05em}{0.35em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[R]{\thepage}
+
+\newcommand{\tameoBranding}{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=north east] at ([xshift=-1.16in,yshift=-0.58in]current page.north east)
+            {\includegraphics[width=1.98in]{tameo-logo.png}};
+        \node[anchor=north east] at ([xshift=-1.18in,yshift=-1.12in]current page.north east)
+            {\includegraphics[width=2.05in,height=0.026in]{tameo-bar.png}};
+    \end{tikzpicture}%
+}
+
+\newcommand{\tameoAuthorCell}[3]{%
+    \begin{minipage}[t]{2.6in}
+        \raggedright
+        \hyphenpenalty=10000
+        \exhyphenpenalty=10000
+        {\sffamily\fontsize{10.8}{12.6}\selectfont #1\par}
+        {\sffamily\fontsize{10.2}{12}\selectfont #2\par}
+        {\sffamily\fontsize{6.45}{7.6}\selectfont\href{mailto:#3}{#3}\par}
+    \end{minipage}%
+}
+
+\newcommand{\maketameotitle}{%
+    \begin{titlepage}
+        \thispagestyle{empty}
+        \begin{tikzpicture}[remember picture,overlay]
+            \node[anchor=north east] at ([xshift=-1.37in,yshift=-2.42in]current page.north east)
+                {\includegraphics[width=1.82in]{tameo-logo.png}};
+            \node[anchor=north west] at ([xshift=1.16in,yshift=-3.00in]current page.north west)
+                {\includegraphics[width=6.55in,height=0.115in]{tameo-bar.png}};
+        \end{tikzpicture}
+
+        \vspace*{1.82in}
+        {\noindent\hspace*{\tameoCoverIndent}\sffamily\bfseries\fontsize{42}{50}\selectfont\color{tameoBlue}\tameoTitle\par}
+        \vspace{0.45in}
+        {\noindent\hspace*{\tameoCoverIndent}\parbox{5.9in}{\raggedright\sffamily\itshape\fontsize{16}{20}\selectfont\color{tameoText}\tameoDocumentType}\par}
+
+        \vspace{0.46in}
+        \noindent\hspace*{\tameoCoverIndent}\makebox[0pt][l]{%
+            \begin{tabular*}{5.95in}{@{\extracolsep{\fill}}ll@{}}
+                \tameoAuthorsBlockA
+            \end{tabular*}%
+        }\par
+        \vspace{0.25in}
+        \noindent\hspace*{\tameoCoverIndent}\makebox[0pt][l]{%
+            \begin{tabular*}{5.95in}{@{\extracolsep{\fill}}ll@{}}
+                \tameoAuthorsBlockB
+            \end{tabular*}%
+        }
+    \end{titlepage}
+}
+
+% Encadrés et indicateurs propres au résumé exécutif
+\newtcolorbox{tameoBox}[1][]{
+    enhanced, breakable,
+    colback=tameoPale, colframe=tameoBlue,
+    boxrule=0pt, leftrule=3pt, arc=0pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    fonttitle=\sffamily\bfseries\color{tameoBlue},
+    coltitle=tameoBlue, colbacktitle=tameoPale,
+    title={#1}, attach title to upper={\par\smallskip}
+}
+
+\newcommand{\kpi}[2]{%
+    \begin{minipage}[t]{0.235\linewidth}
+        \centering
+        {\sffamily\bfseries\fontsize{19}{22}\selectfont\color{tameoBlue}#1\par}
+        \vspace{2pt}
+        {\sffamily\fontsize{8.4}{10}\selectfont\color{tameoText}#2\par}
+    \end{minipage}%
+}
+
+\newcommand{\statut}[1]{%
+    \ifx#1v{\color{okGreen}\textbf{Validé}}\fi%
+    \ifx#1p{\color{warnAmber}\textbf{Partiel}}\fi%
+    \ifx#1o{\color{openRed}\textbf{Ouvert}}\fi%
+}
+
+\begin{document}
+
+\maketameotitle
+\setcounter{page}{2}
+\AddToShipoutPictureBG{\tameoBranding}
+
+% ===========================================================================
+\section{Synthèse}
+% ===========================================================================
+
+\begin{tameoBox}[En une phrase]
+Pour sa première participation à la classe IA du Monaco Energy Boat Challenge
+(MEBC, 8--11 juillet 2026), l'association TAMEO et l'ENSTA Paris ont développé
+un système embarqué qui \textbf{détecte les objets marins} (bouées fixes, bouée
+mobile, quai), \textbf{les localise} dans le plan d'eau et \textbf{décide,
+sans intervention humaine, de les éviter ou de les intercepter} (atteindre,
+contourner, accoster), sous la supervision d'un pilote embarqué.
+\end{tameoBox}
+
+\medskip
+\noindent
+\kpi{0,993}{mAP50 du meilleur modèle YOLO26 (deux classes de bouées)}\hfill
+\kpi{0,888}{mAP50-95, critère plus strict sur le même jeu de test}\hfill
+\kpi{50 m}{portée maximale de détection configurée sur les caméras ZED}\hfill
+\kpi{5 s}{horizon de prédiction du planificateur local DWA}
+\medskip
+
+\noindent\textbf{Ce qui a été réalisé.}
+\begin{itemize}
+    \item Une \textbf{chaîne de perception complète} : constitution d'un jeu de
+    données maritime, annotation CVAT, entraînement YOLO26, export ONNX et
+    inférence sur Jetson AGX Orin avec caméras stéréo ZED X One.
+    \item Une \textbf{boucle de décision} fondée sur la \emph{Dynamic Window
+    Approach} (DWA) : à chaque pas, le bateau évalue les commandes de vitesse
+    et de lacet physiquement atteignables, prédit leurs trajectoires et retient
+    celle qui progresse vers l'objectif en restant loin des obstacles et dans
+    la zone autorisée.
+    \item Des \textbf{primitives d'interception} pour les épreuves où la cible
+    n'a pas de position connue : sélection de la bouée la plus proche, balayage
+    de recherche, critère de contournement, accostage en deux temps
+    (alignement puis entrée).
+    \item Une \textbf{chaîne de commande sécurisée} vers les actionneurs, avec
+    arbitrage manuel/IA, signalisation par LED et repli en cas de perte de la
+    radiocommande.
+\end{itemize}
+
+\noindent\textbf{Ce qui reste à démontrer.} Les performances de détection sont
+mesurées sur le jeu de données, pas encore sur l'eau à Monaco. La portée réelle,
+la latence de bout en bout, le comportement face à la bouée mobile (aujourd'hui
+traitée comme un obstacle fixe, mis à jour à chaque image) et le réglage
+dynamique du bateau réel restent les principaux points ouverts.
+
+\noindent\textbf{Recommandation.} Concentrer la prochaine phase sur une
+campagne de mesures sur l'eau (portée, latence, faux positifs), la prédiction
+de trajectoire de la bouée mobile et le réglage des limites dynamiques du
+bateau réel, avant toute recherche de performance pure.
+
+% ===========================================================================
+\section{Contexte et enjeux}
+% ===========================================================================
+
+Le MEBC, organisé par le Yacht Club de Monaco, ouvre une \textbf{classe IA}
+pour des bateaux autonomes de niveau 5 (définition SAE) : pendant une course,
+le bateau doit être piloté uniquement par des algorithmes, sans télécommande
+(toute manipulation à distance entraîne la disqualification). Un pilote reste
+à bord pour sélectionner l'épreuve, superviser et reprendre la main en cas
+d'urgence. Quatre épreuves sont au programme : \emph{Figure 8},
+\emph{Slalom}, \emph{Docking} et \emph{Sprint}.
+
+Le projet a été mené par l'équipe PIE \og Bateau IA \fg{} de l'ENSTA Paris
+avec les étudiants de première année de TAMEO. Deux contraintes ont façonné
+la solution : l'\textbf{accès tardif au bateau final} (un Hobie Cat 14 sur
+châssis aluminium, au gabarit mesuré d'environ 5\,m $\times$ 2,9\,m), compensé par l'usage d'un
+BlueBoat de Blue Robotics comme banc d'essai, et la \textbf{rareté des images
+de bouées} exploitables, compensée par une démarche centrée sur les données.
+Le budget global de l'association est maintenu à 50\,481\,\texteuro{}.
+
+L'enjeu du système décrit ici est double : \textbf{sécurité} (ne heurter ni
+bouée, ni quai, ni yacht amarré) et \textbf{performance} (contourner au plus
+vite les bouées imposées). Les deux reposent sur la même capacité : savoir ce
+qui se trouve devant le bateau, où, et quoi en faire.
+
+% ===========================================================================
+\section{Le système de détection et d'interception}
+% ===========================================================================
+
+\subsection{Architecture fonctionnelle}
+
+Le système suit une boucle \emph{percevoir -- localiser -- décider --
+commander -- agir}, encadrée en permanence par une couche de supervision et de
+sécurité (figure~\ref{fig:chaine}).
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    font=\sffamily,
+    hdr/.style={fill=tameoBlue, text=white, font=\sffamily\bfseries\scriptsize,
+                minimum width=2.75cm, minimum height=0.55cm, align=center, inner sep=2pt},
+    body/.style={draw=tameoBlue, line width=0.8pt, fill=white, text width=2.55cm,
+                 minimum width=2.75cm, minimum height=2.0cm, align=center, inner sep=3pt,
+                 font=\sffamily\scriptsize},
+    arr/.style={-{Stealth[length=2.4mm]}, line width=0.9pt, color=tameoBlue},
+    sarr/.style={-{Stealth[length=2mm]}, line width=0.6pt, color=tameoLink, dashed}
+]
+\foreach \i/\t/\b in {
+    1/PERCEVOIR/{Caméras ZED X One\\ YOLO26 (ONNX)\\ suivi des objets\\ portée 50\,m},
+    2/LOCALISER/{Profondeur stéréo\\ repères caméra,\\ bateau, monde\\ GPS/RTK, IMU},
+    3/DÉCIDER/{Planificateur DWA\\ \textbf{éviter} : coût obstacle\\ \textbf{intercepter} : cible, contournement},
+    4/COMMANDER/{Consignes $v$, $\omega$\\ MAVLink vers le CPN\\ arbitrage par le GAC},
+    5/AGIR/{Propulsion (VESC)\\ safran (ODrive)\\ actionneurs à 0\textdegree{} en fin de course}
+}{
+    \node[hdr] (h\i) at ({(\i-1)*3.2},0) {\t};
+    \node[body, anchor=north] (b\i) at (h\i.south) {\b};
+}
+\foreach \i/\j in {1/2,2/3,3/4,4/5}{ \draw[arr] (b\i.east) -- (b\j.west); }
+
+\node[draw=tameoLink, fill=tameoPale, line width=0.6pt,
+      text width=15.2cm, minimum height=0.9cm, align=center, font=\sffamily\scriptsize]
+      (sup) at ($(b3.south)+(0,-1.2)$)
+      {\textbf{SUPERVISER ET SÉCURISER}\\[1pt] pilote à bord (AMS, kill cord, reprise en main)
+       \,$\cdot$\, LED d'état \,$\cdot$\, dashboard IA \,$\cdot$\, repli si perte radio $>$ 500\,ms};
+\foreach \i in {1,3,4,5}{ \draw[sarr] (sup.north -| b\i.south) -- (b\i.south); }
+
+\node[font=\sffamily\scriptsize\itshape, text=tameoText, anchor=south west] (env)
+      at ($(h1.north west)+(0,0.55)$) {Scène marine : bouées, quai, yachts, reflets};
+\draw[arr] (env.south -| h1.north) -- (h1.north);
+\draw[sarr] (h5.north) -- ++(0,0.4) -| node[pos=0.25, above, font=\sffamily\scriptsize\itshape, text=tameoText]
+      {état du bateau (position, cap, vitesse)} (h2.north);
+\end{tikzpicture}
+\caption{Chaîne fonctionnelle du système de détection et d'interception.}
+\label{fig:chaine}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Percevoir.} Les caméras ZED X One (liaison GMSL2) alimentent
+    une Jetson AGX Orin 64\,Go. Un modèle YOLO26 affiné sur deux classes,
+    \texttt{buoy\_dynamic} et \texttt{buoy\_fixed}, est exécuté par le SDK
+    ZED, qui ajoute la profondeur stéréo et le suivi des objets (seuil de
+    confiance de 50\,\%). Pour le docking, un modèle de segmentation distingue
+    l'eau du quai ; un second modèle, plus léger, n'est sollicité que si le
+    premier manque de confiance, au plus une fois par seconde, pour préserver
+    la latence.
+    \item \textbf{Localiser.} Chaque détection est convertie du repère caméra
+    au repère bateau puis aux coordonnées géographiques à l'aide du GPS (RTK
+    issu d'un service licencié, comme l'impose le règlement). Elle est publiée
+    avec sa classe, sa confiance, son identifiant de suivi et son rayon dans un
+    état partagé, accessible à tous les modules.
+    \item \textbf{Décider.} Le planificateur DWA échantillonne les commandes
+    atteignables (pas de 0,1\,s, horizon de 5\,s) et les note selon cinq
+    critères : progression vers l'objectif, vitesse, distance aux obstacles,
+    proximité du but et douceur de la commande, auxquels s'ajoute le respect
+    du polygone de la zone de course. Les obstacles sont la somme des bouées
+    connues du parcours et des bouées détectées en direct.
+    \item \textbf{Commander et agir.} Les consignes de vitesse et de vitesse de
+    lacet partent en MAVLink vers le contrôleur principal de navigation (CPN :
+    Raspberry Pi~4 et carte Navigator sous BlueOS/ArduPilot), qui dialogue par
+    scripts Lua avec le gestionnaire automatique des commandes (GAC : Arduino
+    Due). Le GAC arbitre entre commandes manuelles et IA, puis pilote le
+    moteur de propulsion et le safran électrique.
+\end{itemize}
+
+\subsection{Éviter ou intercepter : une même boucle, deux intentions}
+
+Le terme \og obstacle \fg{} recouvre deux situations opposées. Une bouée peut
+être un \textbf{danger à éviter} (bouée mobile du slalom, yachts, bouées
+étrangères au parcours) ou une \textbf{cible à intercepter} (marque de virage
+du sprint ou du docking, dont la position est inconnue). Le système traite les
+deux avec la même perception et le même planificateur ; seule change la
+fonction de coût, ou l'objectif fixé au DWA. La logique du
+tableau~\ref{tab:interception} est implémentée pour le docking ; celle du
+sprint, conçue sur les mêmes principes, reste à coder.
+
+\begin{table}[H]
+\centering
+\caption{Logique d'interception d'une cible de position inconnue}
+\label{tab:interception}
+\footnotesize
+\rowcolors{2}{tablerow}{white}
+\begin{tabularx}{\textwidth}{L{2.6cm}YL{4.3cm}}
+\toprule
+\textbf{Étape} & \textbf{Comportement} & \textbf{Paramètres actuels} \\
+\midrule
+1. Acquisition & Choix de la bouée détectée la plus proche ; priorité à la bouée mobile, puis aux bouées fixes. & Mise à jour à chaque image. \\
+2. Recherche & Si rien n'est vu : rotation sur place de part et d'autre du cap initial. & $\pm$60\textdegree{} ; à défaut, retour au point de départ. \\
+3. Approche & Le DWA prend la bouée comme but tout en évitant les autres objets. & Vitesse plafonnée à 2\,m/s. \\
+4. Contournement & Validé quand le bateau a tourné d'au moins un demi-tour autour de la bouée en s'en approchant suffisamment, quel que soit le sens. & 180\textdegree{} cumulés, distance minimale $\leq$ 6\,m. \\
+5. Accostage (docking) & Recherche du quai, alignement sur l'axe de la place, puis entrée lente en ligne droite et arrêt. & 0,4\,m/s ; arrêt à 3\,m de l'antenne GPS, soit environ 0,5\,m de l'étrave. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Maturité du système}
+
+\begingroup
+\footnotesize
+\rowcolors{2}{tablerow}{white}
+\begin{longtable}{L{4.1cm}L{1.35cm}L{9.6cm}}
+\caption{État de maturité des briques de détection et d'interception}\label{tab:maturite}\\
+\toprule
+\textbf{Brique} & \textbf{Statut} & \textbf{Constat} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Brique} & \textbf{Statut} & \textbf{Constat} \\
+\midrule
+\endhead
+Détection des bouées & \statut{v} & mAP50 de 0,993 et rappel de 0,970 sur le jeu de test ; 467 prédictions à 0,93 de confiance moyenne. Mesure hors de l'eau. \\
+Intégration Jetson et caméras & \statut{v} & Deux flux ZED 1920\,$\times$\,1200 avec détection ONNX opérationnels en mode déploiement (juillet 2026). \\
+Détections utilisées comme obstacles & \statut{v} & Les bouées vues en direct alimentent le DWA du bateau final, ce qui n'était pas encore le cas sur la version BlueBoat. \\
+Segmentation du quai & \statut{p} & Modèles entraînés et intégrés ; aucune métrique validée en conditions réelles. \\
+Bouée mobile du slalom & \statut{p} & Évitée comme un point fixe rafraîchi à chaque image : réactif, pas anticipatif. \\
+Interception au docking & \statut{p} & Recherche, approche, contournement et accostage codés et jouables en simulation ; réglages provisoires, à recaler sur l'eau. \\
+Interception au sprint & \statut{o} & Algorithme de recherche de la marque conçu, pas encore implémenté. \\
+Recherche active d'une cible & \statut{o} & Au-delà du balayage sur place, fonction prévue mais non implémentée ; un échec déclenche le retour au départ. \\
+Fusion des doublons & \statut{o} & Une même bouée vue deux fois peut produire deux obstacles. \\
+Dynamique du bateau réel & \statut{o} & Limites de vitesse et de lacet héritées du BlueBoat, à recaler sur la coque de 5\,m. \\
+Latence et portée réelles & \statut{o} & Non mesurées ; cibles du cahier des charges : vision $<$ 100\,ms, boucle $<$ 300\,ms, bouée vue à 20\,m. \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+% ===========================================================================
+\section{Périmètre, parties prenantes, environnement et missions}
+% ===========================================================================
+
+Cette section pose le cadre d'ingénierie système du \textbf{système
+d'intérêt} : le système de détection et d'interception d'obstacles marins
+(SdI) embarqué sur le bateau IA de TAMEO.
+
+\subsection{Périmètre du système}
+
+\begin{table}[H]
+\centering
+\caption{Frontière du système d'intérêt}
+\label{tab:perimetre}
+\footnotesize
+\begin{tabularx}{\textwidth}{YYY}
+\toprule
+\textbf{Dans le périmètre} & \textbf{À la frontière (interfaces)} & \textbf{Hors périmètre} \\
+\midrule
+\textbullet~Caméras de perception et leur calibration \newline
+\textbullet~Modèles de détection et de segmentation, inférence embarquée \newline
+\textbullet~Localisation des objets (caméra, bateau, monde) \newline
+\textbullet~Planification locale (DWA) et logique d'évitement/interception \newline
+\textbullet~Logique de mission par épreuve \newline
+\textbullet~Dashboard de visualisation IA \newline
+\textbullet~Replis logiciels (perte de cible, retour au départ)
+&
+\textbullet~GPS/RTK et centrale inertielle \newline
+\textbullet~Liaison MAVLink vers le CPN (consignes $v$, $\omega$ ; messages \texttt{GO\_RACE}, \texttt{RACE\_MODE}, \texttt{ERROR}) \newline
+\textbullet~GAC : modes manuel/IA, LED, radiocommande \newline
+\textbullet~Interrupteur AMS et sélection de l'épreuve par le pilote \newline
+\textbullet~Télémétrie de sécurité vers la terre ($\geq$ 2 NM)
+&
+\textbullet~Coque, châssis et flottabilité \newline
+\textbullet~Propulsion, batterie et distribution électrique \newline
+\textbullet~Chaîne d'arrêt matérielle (kill cord, arrêt d'urgence) \newline
+\textbullet~Équipements de sécurité du pilote \newline
+\textbullet~Bateau de la classe Energy \newline
+\textbullet~Logistique et transport vers Monaco \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Le choix de frontière est délibéré : la chaîne d'arrêt d'urgence reste
+\textbf{matérielle et indépendante} du SdI, de sorte qu'une défaillance
+logicielle ne puisse jamais empêcher l'arrêt du bateau.
+
+\subsection{Parties prenantes à intégrer}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    font=\sffamily\scriptsize,
+    soi/.style={ellipse, draw=tameoBlue, line width=1.1pt, fill=tameoPale,
+                minimum width=4.4cm, minimum height=1.9cm, align=center,
+                font=\sffamily\bfseries\small, text=tameoBlue},
+    act/.style={draw=tameoLink, line width=0.6pt, rounded corners=2pt, fill=white,
+                text width=3.3cm, align=center, inner sep=4pt},
+    lnk/.style={{Stealth[length=1.8mm]}-{Stealth[length=1.8mm]}, line width=0.6pt, color=tameoLink},
+    one/.style={-{Stealth[length=1.8mm]}, line width=0.6pt, color=tameoLink},
+    lbl/.style={font=\sffamily\scriptsize, text=tameoText, fill=white, inner sep=1.5pt, align=center}
+]
+\node[soi] (s) at (0,0) {Système de détection\\et d'interception};
+
+\node[act] (env) at (-5.6, 3.1) {\textbf{Environnement marin}\\bouées, quai, yachts, houle, reflets};
+\node[act] (rtk) at ( 0.0, 3.5) {\textbf{Service GNSS/RTK}\\licencié};
+\node[act] (mebc) at ( 5.6, 3.1) {\textbf{Comité technique et\\ direction de course MEBC}};
+\node[act] (sol) at ( 6.0, 0.0) {\textbf{Équipe à terre}\\station sol, télémétrie};
+\node[act] (dash) at ( 5.6,-3.1) {\textbf{Jury, public}\\dashboard IA, diffusion};
+\node[act] (plat) at ( 0.0,-3.5) {\textbf{Plateforme bateau}\\CPN, GAC, moteur, safran};
+\node[act] (pil) at (-5.6,-3.1) {\textbf{Pilote embarqué}\\superviseur de sécurité};
+\node[act] (team) at (-6.0, 0.0) {\textbf{TAMEO et ENSTA}\\conception, essais,\\ maintenance};
+
+\draw[one] (env) -- node[lbl, sloped]{images, profondeur} (s);
+\draw[one] (rtk) -- node[lbl]{position corrigée} (s);
+\draw[lnk] (mebc) -- node[lbl, sloped]{règles, inspections, arrêt IA} (s);
+\draw[lnk] (sol) -- node[lbl, above=1pt, fill=none]{sécurité} (s);
+\draw[one] (s) -- node[lbl, sloped]{détections, trajectoire} (dash);
+\draw[lnk] (plat) -- node[lbl]{consignes ($v$, $\omega$), état} (s);
+\draw[lnk] (pil) -- node[lbl, sloped]{épreuve, AMS, reprise} (s);
+\draw[lnk] (team) -- node[lbl, above=1pt, fill=none]{modèles} (s);
+\end{tikzpicture}
+\caption{Diagramme de contexte du système d'intérêt et de ses parties prenantes.}
+\label{fig:contexte}
+\end{figure}
+
+\begingroup
+\footnotesize
+\rowcolors{2}{tablerow}{white}
+\begin{longtable}{L{3.0cm}L{3.5cm}L{5.3cm}L{2.2cm}}
+\caption{Parties prenantes et attentes vis-à-vis du système}\label{tab:pp}\\
+\toprule
+\textbf{Partie prenante} & \textbf{Rôle} & \textbf{Attentes et exigences clés} & \textbf{Intégration} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Partie prenante} & \textbf{Rôle} & \textbf{Attentes et exigences clés} & \textbf{Intégration} \\
+\midrule
+\endhead
+TAMEO & Client final, exploitant, porteur du projet & Bateau compétitif et sûr, réutilisable d'une année sur l'autre & Décideur \\
+ENSTA Paris & Tutelle pédagogique, financeur & Démarche d'ingénierie rigoureuse, livrables documentés & Décideur \\
+Yacht Club de Monaco, comité technique MEBC & Organisateur, autorité réglementaire & Conformité au règlement technique : aucune télécommande, AMS, LED, inspection à terre puis sur l'eau & Prescripteur \\
+Direction de course & Arbitre pendant les épreuves & Pouvoir exiger l'arrêt de l'IA à tout moment ; autorise ou non une relance & Prescripteur \\
+Pilote embarqué & Superviseur de sécurité & Choisir l'épreuve, comprendre l'état du système (LED, codes d'erreur), reprendre la main instantanément & Utilisateur \\
+Équipe à terre & Supervision, communication avec le pilote & Données de sécurité en temps réel à plus de 2 NM, sans Wi-Fi & Utilisateur \\
+Équipes PIE et étudiants 1A & Concepteurs, intégrateurs, testeurs & Interfaces claires entre vision, navigation et embarqué ; environnement reproductible & Contributeur \\
+Sponsors (DGA, SaveMyBattery) & Financement, composants & Visibilité, usage pertinent du matériel fourni & Contributeur \\
+Fournisseurs technologiques & Stereolabs, NVIDIA, Blue Robotics, ArduPilot, Ultralytics & Compatibilité des versions (JetPack, CUDA, SDK ZED) : dépendance critique & Contributeur \\
+Usagers du plan d'eau & Yachts amarrés, autres concurrents, trafic résiduel & Ne subir aucun contact ni comportement imprévisible & Impacté \\
+Jury et public & Évaluation, prix de l'innovation, diffusion & Dashboard lisible : boîtes de détection, distances, trajectoire planifiée & Impacté \\
+Promotions futures & Repreneurs du système & Code, données et procédures transmissibles & Impacté \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{Environnement opérationnel}
+
+\begingroup
+\footnotesize
+\rowcolors{2}{tablerow}{white}
+\begin{longtable}{L{2.6cm}L{5.6cm}L{5.8cm}}
+\caption{Environnement du système et conséquences de conception}\label{tab:env}\\
+\toprule
+\textbf{Dimension} & \textbf{Caractéristiques} & \textbf{Conséquences pour le système} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Dimension} & \textbf{Caractéristiques} & \textbf{Conséquences pour le système} \\
+\midrule
+\endhead
+Site & Port Hercule et stade nautique de Monaco (bouées vers 43\textdegree{}44,2'\,N -- 7\textdegree{}25,7'\,E) ; bassin bordé de yachts amarrés ; trafic réduit au minimum & Polygone de navigation autorisé dans le planificateur ; carte OpenStreetMap du port pour la planification \\
+Conditions météo-marines & Mer ouverte jusqu'à force 6 Beaufort et 2\,m de vagues (catégorie C exigée pour le Sprint) ; embruns, sel, chaleur estivale & Électronique en boîtier IP56 refroidi ; tangage qui perturbe la caméra et la profondeur \\
+Conditions visuelles & Soleil rasant ou zénithal, reflets sur l'eau, éblouissement, flou de mouvement & Augmentations de données ciblées ; risque de faux positifs et de bouées manquées \\
+Objets présents & Bouées fixes, une bouée mobile lente (slalom), bouées de tailles et de formes variées autour du stade (sprint), quai et pontons & Deux classes de bouées distinctes ; discrimination de la cible parmi des bouées étrangères au parcours \\
+Cadre réglementaire & Autonomie de niveau 5 ; aucune commande à distance ; vitesse $\geq$ 3 nœuds hors docking ; actionneurs à 0\textdegree{} avant et après la course ; deux capteurs de direction (écart toléré : 5\,\%) ; RTK licencié ; dashboard obligatoire & Le \og mode prudent \fg{} ne peut pas descendre sous 1,54\,m/s ; checklist automatique avant armement ; codes d'erreur affichés au pilote \\
+Environnement technique & GNSS/RTK, liaison sol longue portée, calcul embarqué sur batterie & Repli sur retour au départ si la cible est perdue ; budget de latence partagé entre vision et planification \\
+Phases de vie & Simulation, banc à terre, BlueBoat, lac, inspection, courses, transport, passation & Quatre modes logiciels : simulation, matériel dans la boucle, banc statique, déploiement \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{Missions}
+
+\begin{tameoBox}[Mission principale]
+Permettre au bateau IA de TAMEO de \textbf{percevoir les objets marins} qui
+l'entourent et de \textbf{décider seul de les éviter ou de les atteindre},
+afin d'accomplir les épreuves de la classe IA du MEBC \textbf{le plus vite
+possible, sans contact et dans le respect du règlement}, sous la supervision
+d'un pilote capable de reprendre la main à tout instant.
+\end{tameoBox}
+
+\begingroup
+\footnotesize
+\rowcolors{2}{tablerow}{white}
+\begin{longtable}{L{1.75cm}L{2.75cm}L{3.0cm}L{3.4cm}L{2.9cm}}
+\caption{Missions opérationnelles par épreuve}\label{tab:missions}\\
+\toprule
+\textbf{Épreuve} & \textbf{Connu / inconnu} & \textbf{Mission de détection} & \textbf{Mission d'évitement ou d'interception} & \textbf{Critère de succès} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Épreuve} & \textbf{Connu / inconnu} & \textbf{Mission de détection} & \textbf{Mission d'évitement ou d'interception} & \textbf{Critère de succès} \\
+\midrule
+\endhead
+Figure 8 & Deux bouées à position connue ; aucun obstacle & Confirmer les bouées, surveiller les abords & Suivre les points de passage GPS ; garder ses distances avec les bouées et les yachts & Temps minimal, sans contact \\
+Slalom & Deux bouées fixes connues ; une bouée mobile entre elles & Détecter et suivre la bouée mobile & Éviter dynamiquement la bouée mobile en enchaînant les passages & Temps minimal, sans contact \\
+Docking & Marque de virage à position inconnue ; départ et arrivée au quai & Trouver la marque, puis le quai et l'eau libre & Intercepter et contourner la marque, revenir, s'aligner et s'arrêter & À l'arrêt, étrave à 20\,cm du quai, sans toucher (sinon course annulée) \\
+Sprint & Marque à moins de 0,4 NM, gisement inconnu ; autres bouées autour du stade & Rechercher et distinguer la bonne marque & Intercepter et contourner la marque sans sortir du stade & Temps minimal ; aucune sortie de zone \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\noindent Quatre \textbf{missions de soutien} complètent ces missions
+opérationnelles :
+\begin{itemize}
+    \item \textbf{Qualifier} : démontrer au comité technique la checklist
+    automatique, l'affichage des codes d'erreur, la reprise en main et la
+    manœuvrabilité (inspection à terre, puis essai sur l'eau) ;
+    \item \textbf{Sécuriser} : s'arrêter en fin de mission, actionneurs à
+    0\textdegree{}, et exiger au moins deux actions physiques avant toute
+    nouvelle mission ;
+    \item \textbf{Rendre visible} : exposer en direct ou en différé ce que
+    \og voit \fg{} et décide l'IA (dashboard) ;
+    \item \textbf{Transmettre} : livrer un système documenté, testable en
+    simulation et reprenable par les promotions suivantes.
+\end{itemize}
+
+% ===========================================================================
+\section{Risques et prochaines étapes}
+% ===========================================================================
+
+L'analyse finale des risques du projet identifie, pour le SdI, des risques
+encore ouverts dont la criticité initiale (probabilité $\times$ impact) est
+élevée. Le tableau~\ref{tab:risques} les associe à une action prioritaire.
+
+\begingroup
+\footnotesize
+\rowcolors{2}{tablerow}{white}
+\begin{longtable}{L{4.6cm}L{1.0cm}L{9.45cm}}
+\caption{Principaux risques ouverts et actions recommandées}\label{tab:risques}\\
+\toprule
+\textbf{Risque ouvert} & \textbf{Crit.} & \textbf{Action recommandée} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Risque ouvert} & \textbf{Crit.} & \textbf{Action recommandée} \\
+\midrule
+\endhead
+Bouée non détectée à longue distance (60\,m) & 12 & Mesurer la courbe portée/rappel sur l'eau, choisir entre le modèle précis et le modèle rapide \\
+Latence de la vision trop élevée & 12 & Instrumenter la boucle complète, de l'image à la commande, et la comparer au budget de 300\,ms \\
+Navigation autonome non validée sur le bateau réel & 12 & Recaler les limites dynamiques du DWA par essais sur l'eau \\
+Faux positifs (reflets, vagues) & 9 & Fusionner les doublons et filtrer dans le temps avant de déclarer un obstacle \\
+Écart entre images en ligne et scènes réelles & 9 & Enrichir le jeu de données avec des images tournées sur site \\
+Collision si une bouée n'est pas détectée & 8 & Prédire la trajectoire de la bouée mobile (vitesse constante) et conserver les marges de sécurité \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\noindent\textbf{Feuille de route recommandée}, par ordre de priorité :
+\begin{enumerate}
+    \item \textbf{Mesurer avant d'optimiser} : portée, latence et taux de
+    faux positifs sur l'eau, journalisés pour pouvoir rejouer les essais.
+    \item \textbf{Anticiper la bouée mobile} : intégrer sa vitesse estimée dans
+    le coût d'obstacle du DWA, puis valider l'anticipation en simulation.
+    \item \textbf{Fiabiliser la liste d'obstacles} : fusion des doublons,
+    filtrage temporel, recherche active quand la cible reste invisible.
+    \item \textbf{Recaler la dynamique} du bateau de 5\,m et vérifier les
+    conventions de signe de la vitesse de lacet.
+    \item \textbf{Arbitrer la marge d'accostage} : l'arrêt actuel, à environ
+    0,5\,m du quai, privilégie l'absence de contact ; le rapprocher des
+    20\,cm réglementaires demande une distance au quai mesurée de façon fiable.
+\end{enumerate}
+
+\begin{tameoBox}[Message clé]
+La chaîne de détection et d'interception existe de bout en bout, de la caméra
+au safran, et elle est testable sans bateau grâce à la simulation. Sa
+crédibilité dépend désormais de \textbf{mesures sur l'eau} plutôt que de
+nouvelles fonctionnalités.
+\end{tameoBox}
+
+\vfill
+{\scriptsize\color{tameoText}\noindent\textbf{Sources.} Rapport final et
+dossier de réalisation du PIE (avril 2026) ; analyse des risques finale ;
+manuel du module Vision ; règlement technique de la classe IA du MEBC
+(version 2026.1) et description des épreuves ; cahier des charges du projet ;
+code embarqué du bateau IA (dernière version consultée : juillet 2026). Les
+résultats de la compétition ne figurent pas dans ces sources.\par}
+
+\end{document}
